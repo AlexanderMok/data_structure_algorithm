@@ -90,8 +90,9 @@ public class CatDogQueue {
 	
 	@Override
 	public String toString() {
-		return "CatDogQueue [dogQueue=" + dogQueue + ",\ncatQueue="
-				+ catQueue + ",\nCatDogQueue count=" + count + "]";
+		dogQueue.forEach(dog -> System.out.print(dog + " "));
+		catQueue.forEach(cat -> System.out.print(cat + " "));
+		return "CatDogQueue count=" +  count;
 	}
 
 	public static void main(String[] args) {
@@ -109,7 +110,7 @@ public class CatDogQueue {
 		queue.add(dog1);
 		queue.add(dog3);
 		queue.add(cat2);
-		System.out.println(queue);//count denotes the enqueue order
+		System.out.println(queue + "\n");//count denotes the enqueue order
 		
 		queue.pollCat();
 		System.out.println(queue + "\n");//count denotes the enqueue order
