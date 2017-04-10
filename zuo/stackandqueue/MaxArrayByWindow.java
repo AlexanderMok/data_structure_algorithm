@@ -18,7 +18,7 @@ import java.util.LinkedList;
  *  
  *  array length is n, window's is w, then length of MaxArray is n-w+1
  *  <p>
- *  key: use Dequeue to keep and update max value
+ *  key: use Dequeue of length w to keep and update max value
  *  <p>
  *  While looping the array in position i, queueMax rule:<pre>
  *  enqueue rule:
@@ -28,7 +28,7 @@ import java.util.LinkedList;
  *    if array[j] <= array[i], we have bigger value and so dequeue j
  *    
  *  dequeue rule:
- *        
+ *  if head of queueMax is equal to i-w, poll first because it is out of date.       
  * @author Alex
  *
  */
@@ -53,6 +53,7 @@ public class MaxArrayByWindow {
 			if(queueMax.peekFirst() == i - window) {
 				queueMax.pollFirst();
 			}
+			//one window scanning ended. put max into result
 			if(i >= window - 1) {
 				result[index++] = array[queueMax.peekFirst()]; 
 			}
@@ -70,5 +71,4 @@ public class MaxArrayByWindow {
 		}
 
 	}
-
 }
