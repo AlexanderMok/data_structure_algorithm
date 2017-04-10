@@ -44,7 +44,7 @@ public class MaxArrayByWindow {
 		int[] result = new int[array.length - window + 1];
 		int index = 0;
 		for (int i = 0; i < array.length; i++) {
-			while(!queueMax.isEmpty() && array[queueMax.pollLast()] <= array[i]) {
+			while(!queueMax.isEmpty() && array[queueMax.getLast()] <= array[i]) {
 				queueMax.pollLast();
 			}
 			//update index of Max within this window movement
