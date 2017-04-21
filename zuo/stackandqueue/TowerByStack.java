@@ -1,5 +1,7 @@
 package zuo.stackandqueue;
 
+import java.util.Stack;
+
 /**
  * Tower problem
  * 
@@ -87,6 +89,23 @@ public class TowerByStack {
 				return part1 + part2 + part3 + part4 + part5;
 			}
 		}
+	}
+	
+	
+	static class TowerByStackNonRecur {
+		public enum Action {
+			/*still, left to mid, mid to left, mid to right, right to mid*/
+			No, L2M, M2L, M2R, R2M
+		}
+		
+		public static int towerByStack(int size, String left, String mid, String right) {
+			Stack<Integer> lStack = new Stack<>();
+			Stack<Integer> mStack = new Stack<>();
+			Stack<Integer> rStack = new Stack<>();
+			return 0;
+		}
+		
+		
 	}
 
 	public static void main(String[] args) {
