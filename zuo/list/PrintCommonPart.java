@@ -1,21 +1,5 @@
 package zuo.list;
 
-/**
- * Define a list
- * @author Alex
- *
- */
-class Node {
-	public int value;
-	public Node next;
-	public Node(int data) {
-		this.value = data;
-	}
-	
-	public void setNext(Node next) {
-		this.next = next;
-	}
-}
 
 /**
  * Print common part of two sorted list, given two heads of the list
