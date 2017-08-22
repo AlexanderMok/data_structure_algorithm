@@ -30,8 +30,8 @@ public class RemoveMidNode {
 		Node cur = head.next.next;
 		//链表长度每增加2，要删除的节点后移1位
 		while (cur.next != null && cur.next.next != null) {
-			pre = pre.next;
-			cur = cur.next.next;
+			pre = pre.next;//需要指向要删除节点的前一个节点，所以移动一个单位
+			cur = cur.next.next;//当前指针移动2个单位
 		}
 		//deletion
 		pre.next = pre.next.next;
