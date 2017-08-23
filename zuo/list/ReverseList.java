@@ -1,6 +1,6 @@
 package zuo.list;
 
-import java.util.Stack;
+import java.util.Optional;
 
 public class ReverseList {
     
@@ -46,7 +46,48 @@ public class ReverseList {
 			head = next;
 		}
 		return pre;
-	} 
+	}
+	
+	/**
+	 * Time O(n) Space O(1)
+	 * @param head
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public static Node reversePartialSingleList(Node head, int from ,int to) {
+		int len = 0;
+		Node node1 = head;
+		Node fromPre = null;
+		Node toPos = null;
+		//先判断，1<=from<=to<=N
+		while(node1 != null) {
+			len++;
+			//如果刚好等于len
+			fromPre = (len == from - 1) ? node1 : fromPre;
+			toPos = (len == to + 1) ? node1 : toPos;
+			node1 = node1.next;
+		}
+		
+		if(from > to || from < 1 || to > len) {
+			return head;
+		}
+		
+		node1 = fromPre == null ? head : fromPre.next;
+		Node node2 = node1.next;
+		node1.next = toPos;
+		Node next = null;
+		while(node2 != toPos) {
+			next = node2.next;
+			node2.next = node1;
+			node1 = node2;
+		}
+		if(fromPre != null) {
+			fromPre.next = node1;
+			return head;
+		}
+		return node1;
+	}
 	
 	public static void main(String[] args) {
 		Node head = new Node(2);
