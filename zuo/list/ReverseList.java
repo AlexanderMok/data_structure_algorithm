@@ -63,16 +63,17 @@ public class ReverseList {
 		//先判断，1<=from<=to<=N
 		while(node1 != null) {
 			len++;
-			//如果刚好等于len
+			//如果from-1刚好等于len，说明from超出长度，意味着可能反转整个链表，fromPre指向头节点
 			fromPre = (len == from - 1) ? node1 : fromPre;
+			//如果to+1等于len，同理，toPos指向需要反转的节点，即头节点
 			toPos = (len == to + 1) ? node1 : toPos;
 			node1 = node1.next;
 		}
-		
+		//去除不合法的输入from,to
 		if(from > to || from < 1 || to > len) {
 			return head;
 		}
-		
+		//如果fromPre为null，说明反转部分包含头节点
 		node1 = fromPre == null ? head : fromPre.next;
 		Node node2 = node1.next;
 		node1.next = toPos;
