@@ -22,7 +22,7 @@ public class ReverseList {
 			//将原来指向下一节点的指针，指向辅助指针，断开其与连接的节点 Node [value=2, next=null]
 			//辅助指针记录着每次断开的节点
 			head.next = pre;
-			//更新结果
+			//旧的头节点保存到pre
 			pre = head;
 			//更新头节点，头节点向后移动1位
 			head = next;
