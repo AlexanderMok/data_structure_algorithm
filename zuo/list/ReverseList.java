@@ -58,14 +58,16 @@ public class ReverseList {
 	public static Node reversePartialSingleList(Node head, int from ,int to) {
 		int len = 0;
 		Node node1 = head;
+		//要反转部分的前一个节点
 		Node fromPre = null;
+		//要反转部分的后一个节点
 		Node toPos = null;
 		//先判断，1<=from<=to<=N
 		while(node1 != null) {
 			len++;
 			//如果from-1刚好等于len，说明from超出长度，意味着可能反转整个链表，fromPre指向头节点
 			fromPre = (len == from - 1) ? node1 : fromPre;
-			//如果to+1等于len，同理，toPos指向需要反转的节点，即头节点
+			//如果to+1等于len，意味着，反转部分的后一个节点，等于链表长度
 			toPos = (len == to + 1) ? node1 : toPos;
 			node1 = node1.next;
 		}
@@ -74,8 +76,10 @@ public class ReverseList {
 			return head;
 		}
 		//如果fromPre为null，说明反转部分包含头节点
-		node1 = fromPre == null ? head : fromPre.next;
+		node1 = (fromPre == null) ? head : fromPre.next;
+		//反转部分的第一个节点
 		Node node2 = node1.next;
+		//指向要反转部分的最后一个节点的后一个节点
 		node1.next = toPos;
 		Node next = null;
 		while(node2 != toPos) {
