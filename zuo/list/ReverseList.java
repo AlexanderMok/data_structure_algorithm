@@ -1,7 +1,5 @@
 package zuo.list;
 
-import java.util.Optional;
-
 public class ReverseList {
     
 	/**
@@ -81,6 +79,7 @@ public class ReverseList {
 		Node node2 = node1.next;
 		//指向要反转部分的最后一个节点的后一个节点
 		node1.next = toPos;
+		//反转需要反转的部分
 		Node next = null;
 		while(node2 != toPos) {
 			next = node2.next;
