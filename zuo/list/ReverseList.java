@@ -83,7 +83,9 @@ public class ReverseList {
 		Node next = null;
 		while(node2 != toPos) {
 			next = node2.next;
+			//指回前  A <- B  C -> D -> E
 			node2.next = node1;
+			//改变  头节点
 			node1 = node2;
 		}
 		if(fromPre != null) {
