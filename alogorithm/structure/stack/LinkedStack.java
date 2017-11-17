@@ -3,15 +3,35 @@ package algorithm.structure.stack;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * The {@code LinkedStack} class represents a last-in-first-out (LIFO) stack of
+ * generic items
+ * It supports usual <em>push</em> and <em>pop</em> operation, along with methods
+ * for peeking at the top item, testing  if the stack is empty, and iterating through
+ * the items in LIFO order
+ * <P>
+ * 
+ * This implementation uses a singly-linked list with a non-static nested class for 
+ * linked-list nodes. See {@link Stack} for a version that uses a static nested class.
+ * The <em>push</em>, <em>pop</em>, <em>peek</em>, <em>size</em>, and <em>is-empty</em>
+ * operations all take constant time in the worst case. 
+ * @author Alex
+ *
+ * @param <T>
+ */
 public class LinkedStack<T> implements Iterable<T> {
-	private int size;
-	private Node first;
-
+	private int size;    // size of the stack
+	private Node first;  // top of stack
+    
+	/**
+	 * Initializes an empty stack
+	 */
 	public LinkedStack() {
 		size = 0;
 		first = null;
 	}
-
+    
+	// helper singly-linked list class
 	private class Node {
 		private T item;
 		private Node next;
@@ -72,6 +92,10 @@ public class LinkedStack<T> implements Iterable<T> {
 			current = current.next;
 			return item;
 		}
+		
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	@Override
@@ -97,5 +121,6 @@ public class LinkedStack<T> implements Iterable<T> {
 		System.out.println(stack.peek());
 		System.out.println(stack.pop());
 		System.out.printf("Stack size %s, Stack element %s \n", stack.size(), stack);
+		
 	}
 }
