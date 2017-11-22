@@ -3,6 +3,17 @@ package algorithm.structure.stack;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ *  This implementation uses a resizing array, which double the underlying array
+ *  when it is full and halves the underlying array when it is one-quarter full.
+ *  The <em>push</em> and <em>pop</em> operations take constant amortized time.
+ *  The <em>size</em>, <em>peek</em>, and <em>is-empty</em> operations takes
+ *  constant time in the worst case. 
+ *  <p>
+ * @author Alex
+ *
+ * @param <T>
+ */
 public class ResizingArrayStack<T> implements Iterable<T> {
 	private int n; // number of elements in stack
 	private T[] array; // holder of elements
@@ -66,6 +77,15 @@ public class ResizingArrayStack<T> implements Iterable<T> {
 	}
 
 	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		for (T item : this) {
+			s.append(item + "").append(" ");
+		}
+		return s.toString();
+	}
+
+	@Override
 	public Iterator<T> iterator() {
 		return new ReverseArrayIterator();
 	}
@@ -90,15 +110,6 @@ public class ResizingArrayStack<T> implements Iterable<T> {
 			throw new UnsupportedOperationException();
 		}
 
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder s = new StringBuilder();
-		for (T item : this) {
-			s.append(item + "").append(" ");
-		}
-		return s.toString();
 	}
 
 	public static void main(String[] args) {
