@@ -4,6 +4,12 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * 
+ * @author Alex
+ *
+ * @param <T>
+ */
 public class ResizingArrayBag<T> implements Iterable<T> {
 	private int size;
 	private T[] array;

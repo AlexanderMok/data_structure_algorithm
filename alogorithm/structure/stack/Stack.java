@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  *  When you click a hyperlink, your browser displays the new page (and pushes onto a stack). 
  *  You can keep clicking on hyperlinks to visit new pages, but you can always revisit the previous page 
  *  by clicking the back button (popping it from the stack)
- *  先进先出，模拟现实浏览网页，DFS
+ *  先进先出，模拟现实浏览网页，DFS,Dijkstra's two-stack algorithm
  *  This implementation uses a singly-linked list with a static nested class for
  *  linked-list nodes.
  * @author Alex
@@ -64,7 +64,8 @@ public class Stack<T> implements Iterable<T> {
     }
     
     /**
-     * node <- node <- node
+     * insert new node at the beginning
+     * node <- node <- node(new)
      * @param item
      */
     public void push(T item) {
