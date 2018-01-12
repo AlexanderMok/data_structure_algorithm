@@ -25,6 +25,19 @@ public class Stack<T> implements Iterable<T> {
 	private static class Node<E> {
 		private E item;
 		private Node<E> next;
+		
+		public Node() {}
+		
+		//Recursive solution
+		public Node(Node<E> first, int recursive) {
+			this.item = first.item;
+			if (first.next != null) this.next = new Node<E>(first.next, recursive);
+		}
+		
+		public Node(Node<E> first, float nonerecursive) {
+			this.item = first.item;
+			this.next = first.next;
+		}
 	}
 	
 	/**
@@ -33,6 +46,31 @@ public class Stack<T> implements Iterable<T> {
 	public Stack() {
 		size = 0;
 		first = null;
+	}
+	
+	/**
+	 * create a copy constructor for a linked list starting at a given Node 
+	 * and use this to create the new stack. 
+	 * reference a new and independent copy of the Stack stack 
+	 * @param stack
+	 */
+	public Stack(Stack<T> stack, int recursive) {
+		first = new Node<>(stack.first, recursive);
+		
+	}
+	
+	/**
+	 * create a copy constructor for a single Node object.  
+	 * @param stack
+	 * @param nonerecursive
+	 */
+	public Stack(Stack<T> stack, float nonerecursive) {
+		if (stack != null && stack.first != null) {
+			first = stack.first;
+			for(Node<T> x = first; x != null; x = x.next) {
+				x.next = new Node<T>(x.next, nonerecursive);
+			}
+		}
 	}
 	
     public int Size() {
