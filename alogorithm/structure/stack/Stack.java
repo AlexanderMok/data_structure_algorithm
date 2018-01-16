@@ -1,5 +1,6 @@
 package algorithm.structure.stack;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -20,6 +21,7 @@ import java.util.NoSuchElementException;
 public class Stack<T> implements Iterable<T> {
     private int size;       // size of the stack
 	private Node<T> first;  // top of stack
+	private int modCount = 0;
     
 	// helper singly-linked list class
 	private static class Node<E> {
@@ -98,6 +100,7 @@ public class Stack<T> implements Iterable<T> {
     	//first = oldfirst.next;
     	first = first.next;    // delete first node
     	size--;
+    	modCount++;
     	return item;
     }
     
@@ -112,6 +115,7 @@ public class Stack<T> implements Iterable<T> {
     	first.item = item;
     	first.next = oldfirst;
     	size++;
+    	modCount++;
     }
 
 	@Override
@@ -122,18 +126,22 @@ public class Stack<T> implements Iterable<T> {
 	// an iterator, doesn't implement remove() since it's optional
 	private class ListIterator<E> implements Iterator<E> {
         private Node<E> current;
+        private int expectedModCount;
         
         public ListIterator(Node<E> first) {
         	this.current = first;
+        	this.expectedModCount = modCount;
 		}
         
 		@Override
 		public boolean hasNext() {
+			checkModification();
 			return current != null;
 		}
 
 		@Override
 		public E next() {
+			checkModification();
 			if (!hasNext()) {
 			    throw new NoSuchElementException();
 			}
@@ -144,6 +152,12 @@ public class Stack<T> implements Iterable<T> {
 		
 		public void remove() {
 			throw new UnsupportedOperationException();
+		}
+		
+		final void checkModification() {
+			if(expectedModCount != modCount) {
+				throw new ConcurrentModificationException();
+			}
 		}
 	}
 	
