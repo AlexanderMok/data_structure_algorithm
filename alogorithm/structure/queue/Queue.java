@@ -1,5 +1,6 @@
 package algorithm.structure.queue;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -24,6 +25,7 @@ public class Queue<T> implements Iterable<T> {
 	private int size; // number of elements on queue
 	private Node<T> first; // head of queue
 	private Node<T> last; // tail of queue
+	private int modCount = 0;
 
 	// helper singly-linked list class
 	private static class Node<E> {
@@ -108,24 +110,34 @@ public class Queue<T> implements Iterable<T> {
 
 	private class ListIterator<E> implements Iterator<E> {
 		private Node<E> current;
+		private int expectedModCount;
 
 		public ListIterator(Node<E> first) {
 			this.current = first;
+			this.expectedModCount = modCount;
 		}
 
 		@Override
 		public boolean hasNext() {
+			checkModification();
 			return current != null;
 		}
 
 		@Override
 		public E next() {
+			checkModification();
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
 			E item = current.item;
 			current = current.next;
 			return item;
+		}
+		
+		final void checkModification() {
+			if(expectedModCount != modCount) {
+				throw new ConcurrentModificationException();
+			}
 		}
 	}
 
