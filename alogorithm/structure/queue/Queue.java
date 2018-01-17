@@ -14,7 +14,15 @@ import java.util.NoSuchElementException;
  * <p>
  * This implementation uses a singly-linked list with a static nested class for
  * linked-list nodes.
- * 
+ * <p>
+ * Maintain one pointer <em>first</em> to first node in asingly-linked list.
+ * <p>
+ * Maintain another pointer <em>last</em> to last node.
+ * <p>
+ * Dequeue from <em>first</em>.
+ * <p>
+ * Enqueue after <em>last</em>.
+ * <p>
  * 模拟现实中的排队情况。基本操作有入队、出队、获取对头元素、是否空队列、顺序迭代 单链表存储队列元素
  * 
  * @author Alex
@@ -62,6 +70,10 @@ public class Queue<T> implements Iterable<T> {
 	 * @param item
 	 */
 	public void enqueue(T item) {
+		linkLast(item);
+	}
+	
+	private void linkLast(T item) {
 		Node<T> oldLast = last;
 		last = new Node<T>();
 		last.item = item;
@@ -69,21 +81,30 @@ public class Queue<T> implements Iterable<T> {
 		if (isEmpty()) {
 			first = last; // 若队列为空，头即是尾
 		} else {
-			oldLast.next = last; // 新節點增加是指針指著的方向
+			oldLast.next = last; 
 		}
 		size++;
+		modCount++;
 	}
 	
 	public T dequeue() {
 		if (isEmpty()) {
 			throw new NoSuchElementException();
 		}
+		final Node<T> f = first;
+		return unlinkFirst(f);
+	}
+	
+	private T unlinkFirst(Node<T> first){
 		T item = first.item; // 取出头节点元素
 		first = first.next; // 新头节点为先现头节点的下一个节点
-		size--;
-		if (isEmpty())
+		if (isEmpty()){
 			last = null;
+		}
+		size--;
+		modCount++;
 		return item;
+		
 	}
 
 	public T peek() {
