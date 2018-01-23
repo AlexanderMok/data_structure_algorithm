@@ -65,11 +65,10 @@ public class LinkedQueue<T> implements Iterable<T> {
 		if (isEmpty()) {
 			throw new NoSuchElementException("queue underflow");
 		}
-		final Node f = first;
-		return unlinkFirst(f);
+		return unlinkFirst();
 	}
 	
-	private T unlinkFirst(Node first) {
+	private T unlinkFirst() {
 		T item = first.item;
 		first = first.next;
 		size--;

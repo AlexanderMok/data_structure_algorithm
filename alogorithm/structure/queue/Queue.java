@@ -88,21 +88,20 @@ public class Queue<T> implements Iterable<T> {
 	}
 	
 	public T dequeue() {
+		return unlinkFirst();
+	}
+	
+	private T unlinkFirst(){
 		if (isEmpty()) {
 			throw new NoSuchElementException();
 		}
-		final Node<T> f = first;
-		return unlinkFirst(f);
-	}
-	
-	private T unlinkFirst(Node<T> first){
 		T item = first.item; // 取出头节点元素
 		first = first.next; // 新头节点为先现头节点的下一个节点
+		size--;
+		modCount++;
 		if (isEmpty()){
 			last = null;
 		}
-		size--;
-		modCount++;
 		return item;
 		
 	}
