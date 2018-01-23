@@ -1,5 +1,7 @@
 package algorithm.exercise;
 
+import java.util.ArrayDeque;
+
 import algorithm.structure.queue.Queue;
 /**
  * Josephus problem. In the Josephus problem from antiquity, 
@@ -19,16 +21,21 @@ import algorithm.structure.queue.Queue;
 public class Josephus {
     public static void main(String[] args) {
 		killQueue(3, 6);
+		System.out.println();
+		jdkQueue(3, 6);
 	}
     
+    /**
+     * O(n*m)
+     * @param m
+     * @param n
+     */
     public static void killQueue(int m, int n) {
     	Queue<Integer> queue = new Queue<>();
-    	// round a circle
+    	// round a circle O(n)
     	for (int i = 0; i < n; i++) {
     		queue.enqueue(i);
     	}
-    	System.out.println(queue);
-    	
     	while (!queue.isEmpty()) {
     		// kill mth position
     		for (int i = 0; i < m - 1; i++) {
@@ -37,4 +44,25 @@ public class Josephus {
     		System.out.print(queue.dequeue() + " ");
     	}
     }
+    
+    /**
+     * O(n*m)
+     * {@code ArrayDeque} can also be {@code java.util.LinkedList}
+     * @param m
+     * @param n
+     */
+    public static void jdkQueue(int m, int n) {
+    	java.util.Queue<Integer> queue = new ArrayDeque<>();
+    	for (int i = 0; i < n; i++) {
+    		queue.add(i);
+    	}
+    	while(!queue.isEmpty()){
+    		for (int i = 0; i < m - 1; i++) {
+    			Integer t = queue.remove();
+    			queue.add(t);
+    		}
+    		Integer r = queue.remove();
+    		System.out.print(r + " ");
+    	}
+    }    
 }
