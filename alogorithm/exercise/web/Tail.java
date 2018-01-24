@@ -1,4 +1,4 @@
-package algorithm.exercise;
+package algorithm.exercise.web;
 
 import java.util.ArrayList;
 import java.util.List;
