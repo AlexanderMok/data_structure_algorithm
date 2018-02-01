@@ -2,7 +2,12 @@ package algorithm.exercise.web;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
+/**
+ * Is only Dequeue support remove ith element?
+ * @author Alex
+ *
+ * @param <T>
+ */
 public class LinkedQueueDelete<T> implements Iterable<T>{
     private int size;
     private Node<T> first;
@@ -11,6 +16,11 @@ public class LinkedQueueDelete<T> implements Iterable<T>{
     private static class Node<E> {
     	private E item;
     	private Node<E> next;
+    	
+    	@Override
+    	public String toString() {
+    		return "Data: " + item + ", Pointer: " + next;
+    	}
     }
     
     public LinkedQueueDelete() {
@@ -57,31 +67,42 @@ public class LinkedQueueDelete<T> implements Iterable<T>{
     
     public T remove(int index) {
     	checkElementIndex(index);
-    	return unlink(node(index), pre(index));
+    	return unlink(node(index));
+    }
+    
+    void unlink(int index) {
+    	Node<T> pre = first;
+    	Node<T> cur = first;
+    	for (int i = 0; i < index && cur != null; i++) {
+    		cur = cur.next;
+    	}
+    	pre.next = cur.next;
+    	cur.next = null;
+    	
     }
     /**
-     * TODO bugs when removing first or last element
+     * delete the ith least recently added
      * @param remove
      * @param pre
      * @return
      */
-    private T unlink(Node<T> remove, Node<T> pre) {
-    	//first index last
-    	T item = remove.item;
-    	pre.next = remove.next;
-    	remove.next = null;
-    	size--;
-    	return item;
-    }
-    
-    private Node<T> pre(int index) {
-    	Node<T> x = first;
-    	for(int i = 0; i < index - 1; i++) {
-    		x = x.next;
+    public T unlink(Node<T> preOfDel) {
+    	Node<T> pre = first;
+    	if (preOfDel.equals(pre)) {
+    		return removeFirst();
+    	} else {
+    		preOfDel.next = preOfDel.next.next;
+    		Node<T> del = preOfDel.next;
+    		size--;
+    		return del.item;
     	}
-    	return x;
     }
     
+    /**
+     * Traverse to find 
+     * @param index
+     * @return
+     */
     private Node<T> node(int index) {
     	Node<T> x = first;
     	for(int i = 0; i < index; i++) {
@@ -144,7 +165,7 @@ public class LinkedQueueDelete<T> implements Iterable<T>{
 		queue.insertLast("D");
 		queue.insertLast("E");
 		queue.insertLast("F");
-		queue.remove(4);
+		queue.remove(0);
 		System.out.println(queue);
 		System.out.println(queue.size());
 		System.out.println(queue.peek());
