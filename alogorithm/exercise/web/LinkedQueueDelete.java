@@ -87,25 +87,27 @@ public class LinkedQueueDelete<T> implements Iterable<T>{
      * @return
      */
     public T unlink(Node<T> preOfDel) {
-    	Node<T> pre = first;
-    	if (preOfDel.equals(pre)) {
-    		return removeFirst();
-    	} else {
-    		preOfDel.next = preOfDel.next.next;
-    		Node<T> del = preOfDel.next;
-    		size--;
-    		return del.item;
-    	}
+		Node<T> pre = first;
+		if (preOfDel.equals(pre)) {
+			// first node
+			return removeFirst();
+		} else {
+			Node<T> del = preOfDel.next;
+			preOfDel.next = preOfDel.next.next;
+			size--;
+			return del.item;
+		}
     }
     
     /**
-     * Traverse to find 
+     * 
+     * Traverse to find the previous node of the del node
      * @param index
      * @return
      */
     private Node<T> node(int index) {
     	Node<T> x = first;
-    	for(int i = 0; i < index; i++) {
+    	for(int i = 0; i < index - 1; i++) {
     		x = x.next;
     	}
     	return x;
@@ -165,7 +167,7 @@ public class LinkedQueueDelete<T> implements Iterable<T>{
 		queue.insertLast("D");
 		queue.insertLast("E");
 		queue.insertLast("F");
-		queue.remove(0);
+		System.out.println(queue.remove(queue.size() - 1));
 		System.out.println(queue);
 		System.out.println(queue.size());
 		System.out.println(queue.peek());
