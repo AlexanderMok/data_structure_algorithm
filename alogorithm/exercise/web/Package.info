@@ -13,3 +13,7 @@ Web Exercises
 - Tail
 - BoundedStack
 - Delete ith element in a Queue. Array and Linked-List implementation
+- Dynamic shrinking. With the array implementations of stack and queue, 
+  Implement the following strategy: whenever the array is 1/4 full or less, 
+  shrink it to half the size. Explain why we don't shrink it to half the size 
+  when it is 1/2 full or less.
