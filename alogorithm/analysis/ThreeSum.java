@@ -9,15 +9,18 @@ import algorithm.exercise.Stopwatch;
  * This implementation uses a triply nested loop and takes proportional to n^3,
  * where n is the number of integers.
  * 
+ * The brute-force 3-sum algorithm uses ~ N^3 / 2 array accesses to compute the
+ * number of triples that sum to 0 among N numbers.
+ * 
  * @author Alex
  *
  */
 public class ThreeSum {
 	private ThreeSum() {
 	}
-	
+
 	public static void printAll(int[] array) {
-		
+
 	}
 
 	/**
@@ -26,7 +29,7 @@ public class ThreeSum {
 	 * 
 	 * 
 	 * @param array
-	 * @return 
+	 * @return
 	 */
 	public static int count(int[] array) {
 		int n = array.length;
@@ -34,21 +37,21 @@ public class ThreeSum {
 		for (int i = 0; i < n; i++) {
 			for (int j = i + 1; j < n; j++) {
 				for (int k = j + 1; k < n; k++) {
-                    if (array[i] + array[j] + array[k] == 0) {
-                    	count++;
-                    }
+					if (array[i] + array[j] + array[k] == 0) {
+						count++;
+					}
 				}
 			}
 		}
 		return count;
 	}
-	
+
 	public static void main(String[] args) {
 		int[] a = {};
 		Stopwatch timer = new Stopwatch();
-        int count = count(a);
-        System.out.println("elapsed time = " + timer.elapsedTime());
-        System.out.println(count);
+		int count = count(a);
+		System.out.println("elapsed time = " + timer.elapsedTime());
+		System.out.println(count);
 	}
 
 }
