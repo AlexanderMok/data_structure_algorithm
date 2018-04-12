@@ -19,10 +19,6 @@ public class ThreeSum {
 	private ThreeSum() {
 	}
 
-	public static void printAll(int[] array) {
-
-	}
-
 	/**
 	 * Returns the number of triples (i, j, k) with {@code i < j < k} such that
 	 * {@code a[i] + a[j] + a[k] == 0}.
@@ -47,11 +43,10 @@ public class ThreeSum {
 	}
 
 	public static void main(String[] args) {
-		int[] a = {};
+		int[] a = { 1, 3, 5, 2 ,-3, -1};
 		Stopwatch timer = new Stopwatch();
 		int count = count(a);
-		System.out.println("elapsed time = " + timer.elapsedTime());
-		System.out.println(count);
+		System.out.printf("Count %d. Elapsed time = %.5f", count, timer.elapsedTime());
 	}
 
 }

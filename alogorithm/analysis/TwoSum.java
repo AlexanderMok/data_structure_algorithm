@@ -4,11 +4,12 @@ import algorithm.exercise.Stopwatch;
 
 public class TwoSum {
 	public static void main(String[] args) {
-        //read all int
-		int[] array = {1,3,5,2};
+		// read all int
+		int[] array = { 1, 3, 5, 2 };
 		Stopwatch time = new Stopwatch();
 		int count = count(array);
-		
+		System.out.printf("Count %d. Elapsed %.5f seconds", count, time.elapsedTime());
+
 	}
 
 	/**

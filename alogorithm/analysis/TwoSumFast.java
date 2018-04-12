@@ -6,16 +6,17 @@ import algorithm.exercise.Stopwatch;
 
 /**
  * Sort and binarysearch. 
+ * O(NlogN)
  * @author Alex
  *
  */
 public class TwoSumFast {
 	public static void main(String[] args) {
 		// read all int
-		int[] array = { 1, 3, 5, 2 };
+		int[] array = { 1, 3, 5, 2 ,-3, -1};
 		Stopwatch time = new Stopwatch();
 		int count = count(array);
-		System.out.printf("Elapsed %.2f seconds", time.elapsedTime());
+		System.out.printf("Count %d. Elapsed %.2f seconds", count, time.elapsedTime());
 	}
 
 	private static int count(int[] array) {
