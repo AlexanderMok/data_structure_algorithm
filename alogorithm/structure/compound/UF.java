@@ -1,4 +1,4 @@
-package algorithm.structure.compound;
+package alogorithm.structure.compound;
 
 /**
  * The {@code UF} class represents a <em>union–find data type</em> (also known
@@ -8,13 +8,17 @@ package algorithm.structure.compound;
  * operation that returns the total number of components.
  * <p>
  * 
+ * <p>
+ *  For additional documentation, see <a href="http://algs4.cs.princeton.edu/15uf">Section 1.5</a> of
+ *  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.
  * 
  * @author Alex
  *
  */
 public class UF {
-	
+	/*parent[i] = parent of i, the component containing i*/
 	private int[] parent;
+	/*rank[i] = rank of subtree rooted at i*/
 	private byte[] rank;
 	/*number of component*/
 	private int count;
@@ -29,10 +33,7 @@ public class UF {
 			rank[i] = 0;
 		}
 	}
-
-	public void union(int p, int q) {
-	}
-    
+	
 	/**
 	 * In which component is object p
 	 * @param p
@@ -45,6 +46,11 @@ public class UF {
 		}
 		return 0;
 	}
+
+	public void union(int p, int q) {
+	}
+    
+	
     
 	/**
 	 * If p and q are in the same component, they are connected
