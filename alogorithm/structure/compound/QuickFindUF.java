@@ -1,5 +1,10 @@
 package alogorithm.structure.compound;
 
+/**
+ * union is too expansive
+ * @author Alex
+ *
+ */
 public class QuickFindUF {
 	private int[] id;
 
@@ -18,7 +23,9 @@ public class QuickFindUF {
 	}
 
 	/**
-	 * the position/component where p is
+	 * id[p] is the position/component where p is
+	 * 
+	 * or think id[p] as the parent id of p, then trees are flat
 	 * 
 	 * @param p
 	 * @return
