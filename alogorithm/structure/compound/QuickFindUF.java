@@ -2,6 +2,7 @@ package alogorithm.structure.compound;
 
 /**
  * union is too expansive
+ * 
  * @author Alex
  *
  */
@@ -45,6 +46,9 @@ public class QuickFindUF {
 	public void union(int p, int q) {
 		int pid = id[p];
 		int qid = id[q];
+		if (pid == qid) {
+			return;
+		}
 		for (int i = 0; i < id.length; i++) {
 			if (pid == id[i]) {
 				id[i] = qid;

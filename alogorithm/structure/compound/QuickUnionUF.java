@@ -1,8 +1,8 @@
 package alogorithm.structure.compound;
 
 /**
- * find/connected could be expensive N array accesses
- * Trees can get tall
+ * find/connected could be expensive N array accesses Trees can get tall
+ * 
  * @author Alex
  *
  */
@@ -47,34 +47,39 @@ public class QuickUnionUF {
 		}
 		return p;
 	}
-    
+
 	/**
 	 * change root of p ot point to root of q
+	 * 
 	 * @param p
 	 * @param q
 	 */
 	public void union(int p, int q) {
-        int p_root = find(p);
-        int q_root = find(q);
-        id[p_root] = q_root;
+		int p_root = find(p);
+		int q_root = find(q);
+		if (p_root == q_root) {
+			return;
+		}
+		id[p_root] = q_root;
 	}
-    
+
 	/**
 	 * p and q array accesses
+	 * 
 	 * @param p
 	 * @param q
 	 * @return
 	 */
 	public boolean connected(int p, int q) {
-        return find(p) == find(q);
+		return find(p) == find(q);
 	}
 
 	public static void main(String[] args) {
 		QuickUnionUF quickUnion = new QuickUnionUF(8);
 		int root = quickUnion.find(4);
 		System.out.println(root);
-		System.out.println(quickUnion.connected(5,3));
-		System.out.println(quickUnion.connected(5,1));
+		System.out.println(quickUnion.connected(5, 3));
+		System.out.println(quickUnion.connected(5, 1));
 		System.out.println(quickUnion.find(5));
 		quickUnion.union(5, 6);
 		System.out.println(quickUnion.find(5));
