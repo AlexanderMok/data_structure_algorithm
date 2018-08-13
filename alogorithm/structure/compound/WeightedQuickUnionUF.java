@@ -21,6 +21,9 @@ public class WeightedQuickUnionUF {
 			parent[i] = i;
 			size[i] = 1; // each tree has one site
 		}
+		parent[3] = 2;
+		parent[4] = 2;
+		parent[5] = 4;
 	}
 
 	public int count() {
@@ -46,6 +49,21 @@ public class WeightedQuickUnionUF {
 	public int find2(int p) {
 		validate(p);
 		while (p != parent[p]) {
+			p = parent[p];
+		}
+		return p;
+	}
+	
+	/**
+	 * path halving
+	 * @param p
+	 * @return
+	 */
+	public int findWithPathCompression(int p ) {
+		validate(p);
+		while(p != parent[p]) {
+			//link to grandparent
+			parent[p] = parent[parent[p]];
 			p = parent[p];
 		}
 		return p;
@@ -77,5 +95,9 @@ public class WeightedQuickUnionUF {
         	size[qRoot] += size[pRoot];
         }
         count--;
+	}
+	
+	public static void main(String[] args) {
+		
 	}
 }
