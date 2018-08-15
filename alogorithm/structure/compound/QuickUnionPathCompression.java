@@ -24,10 +24,10 @@ public class QuickUnionPathCompression {
 		// set parent of each node to the root
 		while (p != root) {
 			int newp = parent[p];
-			newp = root;
+			parent[p] = root;
 			p = newp;
 		}
-		return p;
+		return root;
 	}
 
 	public void union(int p, int q) {
@@ -36,13 +36,13 @@ public class QuickUnionPathCompression {
 		if (rootP == rootQ) {
 			return;
 		}
-        if (size[rootP] < size[rootQ]) {
-        	parent[rootP] = rootQ;
-        	size[rootQ] += size[rootP];
-        }else {
-        	parent[rootQ] = rootP;
-        	size[rootP] += size[rootQ];
-        }
+		if (size[rootP] < size[rootQ]) {
+			parent[rootP] = rootQ;
+			size[rootQ] += size[rootP];
+		} else {
+			parent[rootQ] = rootP;
+			size[rootP] += size[rootQ];
+		}
 	}
 
 }
