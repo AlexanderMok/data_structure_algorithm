@@ -59,7 +59,7 @@ public class WeightedQuickUnionUF {
 	 * @param p
 	 * @return
 	 */
-	public int findWithPathCompression(int p ) {
+	public int findWithPathHalving(int p ) {
 		validate(p);
 		while(p != parent[p]) {
 			//link to grandparent
