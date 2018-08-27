@@ -1,4 +1,4 @@
-package algorithm.sort;
+package alogorithm.sort;
 
 import java.math.BigInteger;
 import java.util.Arrays;
