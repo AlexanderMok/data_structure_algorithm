@@ -1,5 +1,7 @@
 package alogorithm.sort.elementary;
 
+import java.util.Arrays;
+
 import algorithm.sort.Sort;
 
 public class ShellSort extends Sort {
@@ -7,7 +9,10 @@ public class ShellSort extends Sort {
 	}
 
 	public static void main(String[] args) {
-
+		Integer[] a = new Integer[] { 3, 5, 7, 23, 9, 5, 67 };
+		ShellSort.sort(a);
+		Arrays.stream(a).forEach(e -> System.out.print(e + " "));
+		System.out.println(ShellSort.isSorted(a));
 	}
 
 	public static void sort(Comparable[] a) {
@@ -19,8 +24,8 @@ public class ShellSort extends Sort {
 		}
 
 		while (h >= 1) {
-			for (int i = 0; i < n; i++) {
-				for (int j = i; j >= h && less(j, j - h); j -= h) {
+			for (int i = h; i < n; i++) {
+				for (int j = i; j >= h && less(a[j], a[j - h]); j -= h) {
 					exchange(a, j, j - h);
 				}
 			}
