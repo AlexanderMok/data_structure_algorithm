@@ -1,6 +1,8 @@
-package alogorithm.sort;
+package alogorithm.sort.merge;
 
 import java.util.Arrays;
+
+import alogorithm.sort.Sort;
 
 /**
  * Improvement
