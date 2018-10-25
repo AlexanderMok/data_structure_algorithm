@@ -51,7 +51,7 @@ public class MergeX extends Sort {
 		sort(dst, src, lo, mid);
 		sort(dst, src, mid + 1, hi);
 		// stop if already sorted
-		if (less(src[mid + 1], src[mid])) {
+		if (less(src[mid], src[mid + 1])) {
 			return;
 		}
 
