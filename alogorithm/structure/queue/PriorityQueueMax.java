@@ -16,7 +16,10 @@ public class PriorityQueueMax<Key extends Comparable<Key>> implements Iterable<K
 	
 	public void insert(Key v) {
 		//insert v to the end of the heap
-		//resize
+		//test if need to resize
+		if (n >= pq.length - 1) {
+			resize(2 * pq.length);
+		}
 		n++;
 		pq[n] = v;
 		swim(n);
@@ -31,6 +34,10 @@ public class PriorityQueueMax<Key extends Comparable<Key>> implements Iterable<K
 		pq[n+1] = null;
 		//reheapify
 		sink(1);
+		//test if need to reduce size
+		if (n > 0 && (n == (pq.length - 1) / 4)) {
+			resize(pq.length / 2);
+		}
 		return max;
 	}
 	
@@ -93,6 +100,15 @@ public class PriorityQueueMax<Key extends Comparable<Key>> implements Iterable<K
 		Key key = pq[i];
 		pq[i] = pq[j];
 		pq[j] = key;
+	}
+	
+	private void resize(int capacity) {
+		Key[] temp = (Key[])new Object[capacity];
+		//copy to temp
+		for (int i = 1; i <= n; i++) {
+			temp[i] = pq[i];
+		}
+		pq = temp;
 	}
 
 }
