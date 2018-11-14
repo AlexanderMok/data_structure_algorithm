@@ -9,6 +9,8 @@ package alogorithm.structure.queue;
  * keeping the entries in the array in order (as in insertion sort). Insertion
  * is stable
  * 
+ * O(n) for insert, O(1) for delMax
+ * 
  * @author Alex
  *
  * @param <E>
@@ -43,7 +45,7 @@ public class PriorityQueueOrderedMax<E extends Comparable<E>> {
 		pq[i + 1] = key;
 		n++;
 	}
-
+	
 	public E delMax() {
 		// largest one always on the right
 		return pq[--n];
