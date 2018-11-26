@@ -34,6 +34,10 @@ public class SequentialSearchSymbolTable<K, V> {
 		if (key == null) {
 			throw new IllegalArgumentException("key cannot be empty");
 		}
+		if(value == null) {
+			delete(key);
+			return;
+		}
 		Node traverse = first;
 		while (traverse != null) {
 			if (key.equals(traverse.key)) {
@@ -54,15 +58,18 @@ public class SequentialSearchSymbolTable<K, V> {
 		if (isEmpty()) {
 			throw new NoSuchElementException("Symbol table is empty");
 		}
-		Node traverse = first;
-		while(traverse != null) {
-			if(key.equals(traverse.key)) {
-				Node remove = traverse.next;
-				traverse.next = remove.next;
+		Node sentinal = new Node();
+		sentinal.next = first;
+		while(first != null) {
+			if (key.equals((first.key))) {
+				V v = first.value;
 				n--;
-				return remove.value;
+				sentinal.next = first.next;
+				first = first.next;
+				return v;
 			}
-			traverse = traverse.next;
+			first = first.next;
+			sentinal = sentinal.next;
 		}
 		return null;
 	}
@@ -90,6 +97,10 @@ public class SequentialSearchSymbolTable<K, V> {
     		this.key = key;
     		this.value = value;
     		this.next = next;
+    	}
+    	
+    	public Node() {
+    		
     	}
     }
 	
