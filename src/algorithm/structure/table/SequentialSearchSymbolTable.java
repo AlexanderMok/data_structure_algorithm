@@ -2,6 +2,20 @@ package algorithm.structure.table;
 
 import java.util.NoSuchElementException;
 
+/**
+ * an unordered symbol table
+ * <p>
+ * This implementation uses a singly-linked list and sequential search.
+ * 
+ * put,delete O(n)
+ * get,contains O(n) worst
+ * size,isEmpty O(1)
+ * 
+ * @author Alex
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class SequentialSearchSymbolTable<K, V> {
     //number of key-value pairs
 	private int n;
@@ -20,11 +34,14 @@ public class SequentialSearchSymbolTable<K, V> {
 		if (key == null) {
 			throw new IllegalArgumentException("key cannot be empty");
 		}
+		if (isEmpty()) {
+			return null;
+		}
 		Node traverse = first;
-		while(traverse != null) {
+		while (traverse != null) {
 			if (key.equals(traverse.key)) {
 				return traverse.value;
-			} 
+			}
 			traverse = traverse.next;
 		}
 		return null;
@@ -66,11 +83,13 @@ public class SequentialSearchSymbolTable<K, V> {
 				n--;
 				sentinal.next = first.next;
 				first = first.next;
+				sentinal = null;
 				return v;
 			}
 			first = first.next;
 			sentinal = sentinal.next;
 		}
+		sentinal = null;
 		return null;
 	}
 	
