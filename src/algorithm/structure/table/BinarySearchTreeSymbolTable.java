@@ -1,7 +1,5 @@
 package algorithm.structure.table;
 
-import java.awt.RenderingHints.Key;
-import java.rmi.dgc.Lease;
 import java.util.NoSuchElementException;
 
 /**
@@ -161,7 +159,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		if (x == null) {
 			return null;
 		}
-		int cmp = key.compareTo(key);
+		int cmp = key.compareTo(x.key);
 		if (cmp > 0) {
 			x.right = delete(x.right, key);
 		} else if (cmp < 0) {
@@ -173,6 +171,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 			if (x.left == null)
 				return x.right;
 			Node t = x;
+			x = min(t.right);
 
 		}
 		return x;
@@ -297,6 +296,34 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		} else {
 			return x;
 		}
+	}
+	
+	public K select(int k) {
+		return select(root, k).key;
+	}
+	
+	private Node select(Node x, int k) {
+		if (x == null) {
+			return null;
+		}
+		int t = size(x.left);
+		if ( t > k) {
+			return select(x.left, k);
+		} else if (t < k) {
+			return select(x.right, k-t-1);
+		} else {
+			return x;
+		}
+		
+	}
+	
+	/**
+	 * the number of 
+	 * @param key
+	 * @return the rank of a given key
+	 */
+	public int rank(K key) {
+		return 0;
 	}
 
 	public Iterable<K> iterator() {
