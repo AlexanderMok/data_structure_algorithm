@@ -2,6 +2,8 @@ package algorithm.structure.table;
 
 import java.util.NoSuchElementException;
 
+import algorithm.structure.queue.Queue;
+
 /**
  * A binary search tree (BST) is a binary tree where each node has a Comparable
  * key (and an associated value) and satisfies the restriction that the key in
@@ -48,7 +50,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		if (x == null) {
 			return 0;
 		}
-		return size(x.left) + size(x.right) + 1;
+		return x.size;
 	}
 
 	public boolean contains(K key) {
@@ -105,6 +107,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		} else {
 			x.val = val;
 		}
+		x.size = size(x.left) + size(x.right) + 1;
 		return x;
 	}
 
@@ -248,7 +251,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		if (cmp < 0) {
 			return floor(x.left, key);
 		}
-		//check right subtree
+		// cmp > 0, could be on the right, so check right subtree
 		Node t = floor(x.right, key);
 		if (t != null) {
 			return t;
@@ -256,7 +259,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 			return x;
 		}
 	}
-	
+
 	public K ceiling(K key) {
 		if (key == null) {
 			throw new IllegalArgumentException("argument to ceiling() is null");
@@ -271,9 +274,10 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 			return x.key;
 		}
 	}
-	
+
 	/**
 	 * the smallest Node greater than or equal to given key
+	 * 
 	 * @param x
 	 * @param key
 	 * @return
@@ -289,7 +293,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		if (cmp > 0) {
 			return ceiling(x.right, key);
 		}
-		//check left subtree
+		// check left subtree
 		Node t = ceiling(x.left, key);
 		if (t != null) {
 			return t;
@@ -297,36 +301,64 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 			return x;
 		}
 	}
-	
+
 	public K select(int k) {
 		return select(root, k).key;
 	}
-	
+
 	private Node select(Node x, int k) {
 		if (x == null) {
 			return null;
 		}
 		int t = size(x.left);
-		if ( t > k) {
+		if (t > k) {
 			return select(x.left, k);
 		} else if (t < k) {
-			return select(x.right, k-t-1);
+			// t是剛才經過的left的rank，1是root的rank
+			return select(x.right, k - t - 1);
 		} else {
 			return x;
 		}
-		
+
 	}
-	
+
 	/**
-	 * the number of 
+	 * the number of
+	 * 
 	 * @param key
 	 * @return the rank of a given key
 	 */
 	public int rank(K key) {
-		return 0;
+		return rank(root, key);
+	}
+
+	private int rank(Node x, K key) {
+		if (x == null) {
+			return 0;
+		}
+		int cmp = key.compareTo(x.key);
+		if (cmp > 0) {
+			return size(x.left) + size(x.right) + 1;
+		} else if (cmp < 0) {
+			return rank(x.left, key);
+		} else {
+			return size(x.left);
+		}
+
 	}
 
 	public Iterable<K> iterator() {
-		return null;
+		Queue<K> queue = new Queue<K>();
+		inorder(root, queue);
+		return queue;
+	}
+	
+	private void inorder(Node x, Queue<K> queue) {
+		if (x == null) {
+			return;
+		}
+		inorder(x.left, queue);
+		queue.enqueue(x.key);
+		inorder(x.right, queue);
 	}
 }
