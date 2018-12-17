@@ -323,7 +323,16 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 	}
 
 	/**
-	 * the number of
+	 * How many keys less than a given key
+	 * <p>
+	 * If the given key is equal to the key at root, return the number of keys
+	 * in left subtree.
+	 * <p>
+	 * If the given key is less than the key at root, return the rank of the key
+	 * in the left subtree.
+	 * <p>
+	 * If the given key is larger than the key at root, return left and right
+	 * subtree plus one(to count the key at root)
 	 * 
 	 * @param key
 	 * @return the rank of a given key
@@ -346,13 +355,39 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		}
 
 	}
+	
+	public void deleteMin() {
+		root = deleteMin(root);
+	}
+
+	private Node deleteMin(Node x) {
+		if (x.left == null) {
+			return x.right;
+		}
+		x.left = deleteMin(x.left);
+		x.size = size(x.left) + size(x.right) + 1;
+		return x;
+	}
+	
+	public void deleteMax() {
+		root = deleteMax(root);
+	}
+	
+	private Node deleteMax(Node x) {
+		if (x.right == null) {
+			return x.left;
+		}
+		x.right = deleteMax(x.right);
+		x.size = size(x.left) + size(x.right) + 1;
+		return x; 
+	}
 
 	public Iterable<K> iterator() {
 		Queue<K> queue = new Queue<K>();
 		inorder(root, queue);
 		return queue;
 	}
-	
+
 	private void inorder(Node x, Queue<K> queue) {
 		if (x == null) {
 			return;
