@@ -157,26 +157,65 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		}
 		root = delete(root, key);
 	}
-
+    
+	/**
+	 * Hibbard deletion
+	 * search the key
+	 * case 1: 0 children
+	 * case 2: 1 child
+	 * case 3: 2 children
+	 * @param x
+	 * @param key
+	 * @return
+	 */
 	private Node delete(Node x, K key) {
+		//case 1 with 0 children
 		if (x == null) {
 			return null;
 		}
 		int cmp = key.compareTo(x.key);
 		if (cmp > 0) {
+			//search right subtree
 			x.right = delete(x.right, key);
 		} else if (cmp < 0) {
+			//search left subtree
 			x.left = delete(x.left, key);
 		} else {
 			// check if this node has left or right subtree
-			if (x.right == null)
+			// case 2 with 1 child
+			if (x.right == null) {
 				return x.left;
-			if (x.left == null)
+			}
+			// case 2 with 1 child
+			if (x.left == null) {
 				return x.right;
+			}
+			/**
+			 * case 3 with 2 children
+			 * Save a link to the node to be deleted in t
+			 *              /
+			 *             b
+			 *            / \
+			 *      c(to-del)   d
+			 *      /\
+			 *      e f
+			 *     /\ /\
+			 *    h   j
+			 *        /\
+			 *          k
+			 */
 			Node t = x;
+			//Set x to point to its successor min(t.right)
 			x = min(t.right);
+			//set the right link of x to the link that all the keys 
+			//that are larger than x.key after the deletion.
+			x.right = deleteMin(t.right);
+			//set the left link of x to t.left
+			x.left = t.left;
 
 		}
+		//update size
+		x.size = size(x.left) + size(x.right) + 1;
 		return x;
 	}
 
@@ -347,7 +386,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		}
 		int cmp = key.compareTo(x.key);
 		if (cmp > 0) {
-			return size(x.left) + size(x.right) + 1;
+			return size(x.left) + rank(x.right, key) + 1;
 		} else if (cmp < 0) {
 			return rank(x.left, key);
 		} else {
