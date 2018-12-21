@@ -157,28 +157,26 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		}
 		root = delete(root, key);
 	}
-    
+
 	/**
-	 * Hibbard deletion
-	 * search the key
-	 * case 1: 0 children
-	 * case 2: 1 child
-	 * case 3: 2 children
+	 * Hibbard deletion search the key case 1: 0 children case 2: 1 child case
+	 * 3: 2 children
+	 * 
 	 * @param x
 	 * @param key
 	 * @return
 	 */
 	private Node delete(Node x, K key) {
-		//case 1 with 0 children
+		// case 1 with 0 children
 		if (x == null) {
 			return null;
 		}
 		int cmp = key.compareTo(x.key);
 		if (cmp > 0) {
-			//search right subtree
+			// search right subtree
 			x.right = delete(x.right, key);
 		} else if (cmp < 0) {
-			//search left subtree
+			// search left subtree
 			x.left = delete(x.left, key);
 		} else {
 			// check if this node has left or right subtree
@@ -191,30 +189,20 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 				return x.right;
 			}
 			/**
-			 * case 3 with 2 children
-			 * Save a link to the node to be deleted in t
-			 *              /
-			 *             b
-			 *            / \
-			 *      c(to-del)   d
-			 *      /\
-			 *      e f
-			 *     /\ /\
-			 *    h   j
-			 *        /\
-			 *          k
+			 * case 3 with 2 children Save a link to the node to be deleted in t
+			 * / b / \ c(to-del) d /\ e f /\ /\ h j /\ k
 			 */
 			Node t = x;
-			//Set x to point to its successor min(t.right)
+			// Set x to point to its successor min(t.right)
 			x = min(t.right);
-			//set the right link of x to the link that all the keys 
-			//that are larger than x.key after the deletion.
+			// set the right link of x to the link that all the keys
+			// that are larger than x.key after the deletion.
 			x.right = deleteMin(t.right);
-			//set the left link of x to t.left
+			// set the left link of x to t.left
 			x.left = t.left;
 
 		}
-		//update size
+		// update size
 		x.size = size(x.left) + size(x.right) + 1;
 		return x;
 	}
@@ -394,7 +382,7 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		}
 
 	}
-	
+
 	public void deleteMin() {
 		root = deleteMin(root);
 	}
@@ -407,18 +395,55 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		x.size = size(x.left) + size(x.right) + 1;
 		return x;
 	}
-	
+
 	public void deleteMax() {
 		root = deleteMax(root);
 	}
-	
+
 	private Node deleteMax(Node x) {
 		if (x.right == null) {
 			return x.left;
 		}
 		x.right = deleteMax(x.right);
 		x.size = size(x.left) + size(x.right) + 1;
-		return x; 
+		return x;
+	}
+
+	public Iterable<K> keys() {
+		return keys(min(), max());
+	}
+
+	public Iterable<K> keys(K lo, K hi) {
+		if (lo == null) {
+			throw new IllegalArgumentException("first argument to keys() is null");
+		}
+		if (hi == null) {
+			throw new IllegalArgumentException("second argument to keys() is null");
+		}
+		Queue<K> queue = new Queue<K>();
+		keys(root, queue, lo, hi);
+		return queue;
+	}
+
+	private void keys(Node x, Queue<K> queue, K lo, K hi) {
+		if (x == null) {
+			return;
+		}
+		int cmplo = lo.compareTo(x.key);
+		int cmphi = hi.compareTo(x.key);
+		// expected low is smaller than node x, search left
+		if (cmplo < 0) {
+			keys(x.left, queue, lo, hi);
+		}
+		// expected low and hi may not reach the range simultaneously, thus <=
+		// and >=
+		if (cmplo <= 0 && cmphi >= 0) {
+            queue.enqueue(x.key);
+		}
+		// expected hi is larger than node x, search right
+		if (cmphi > 0) {
+			keys(x.right, queue, lo, hi);
+		}
 	}
 
 	public Iterable<K> iterator() {
