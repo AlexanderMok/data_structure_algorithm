@@ -460,4 +460,15 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		queue.enqueue(x.key);
 		inorder(x.right, queue);
 	}
-}
+	
+	public int height() {
+		return height(root);
+	}
+	
+	private int height(Node x) {
+		if (x == null) {
+			return -1;
+		}
+		return 1 + Math.max(height(x.left), height(x.right));
+	}
+} 
