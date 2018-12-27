@@ -3,6 +3,7 @@ package algorithm.structure.table;
 import java.util.NoSuchElementException;
 
 import algorithm.structure.queue.Queue;
+import algorithm.structure.stack.Stack;
 
 /**
  * A binary search tree (BST) is a binary tree where each node has a Comparable
@@ -67,10 +68,16 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		if (val == null) {
 			delete(key);
 		}
-
-		Node x = root;
+        
+		Node z = new Node(key, val, 1);
+		if (root == null) {
+			root = z;
+			return;
+		}
+		Node x = root, parent = null;
 		// traverse the tree to check if key already exists
 		while (x != null) {
+			parent = x;
 			int cmp = key.compareTo(x.key);
 			if (cmp > 0) {
 				x = x.right;
@@ -80,9 +87,13 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 				x.val = val;
 			}
 		}
-		// not in tree. traverse tree and find proper node to insert and adjust
-		// the tree
-		x = new Node(key, val, 1);
+		// not in tree. insert to left or right of parent of x
+		int cmp = key.compareTo(parent.key);
+		if (cmp > 0) {
+			parent.right = z;
+		} else {
+			parent.left = z;
+		}
 	}
 
 	public void putRecursive(K key, V val) {
@@ -408,8 +419,25 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 		x.size = size(x.left) + size(x.right) + 1;
 		return x;
 	}
-
+	
 	public Iterable<K> keys() {
+		Stack<Node> stack = new Stack<>();
+		Queue<K> queue = new Queue<>();
+		Node x = root;
+		while(x != null || !stack.isEmpty()){
+			if (x != null) {
+				stack.push(x);
+				x = x.left;
+			} else {
+				x = stack.pop();
+				queue.enqueue(x.key);
+				x = x.right;
+			}
+		}
+		return queue;
+	}
+
+	public Iterable<K> keysRecursive() {
 		return keys(min(), max());
 	}
 
