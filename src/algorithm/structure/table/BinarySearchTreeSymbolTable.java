@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import algorithm.structure.queue.Queue;
 import algorithm.structure.stack.Stack;
+import algorithm.structure.table.BinarySearchTreeSymbolTable.Node;
 
 /**
  * A binary search tree (BST) is a binary tree where each node has a Comparable
@@ -521,5 +522,26 @@ public class BinarySearchTreeSymbolTable<K extends Comparable<K>, V> {
 			return false;
 		}
 		return isSizeConsistent(x.left) && isSizeConsistent(x.right);
+	}
+	
+	/**
+	 * Is the tree rooted at x a BST with all keys strictly [min, max]
+	 * @param x
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	private boolean isBST(Node x, K min, K max) {
+		if (x == null) {
+			return true;
+		}
+		if (min != null && x.key.compareTo(min) <= 0) {
+			return false;
+		}
+		if (max != null && x.key.compareTo(max) >= 0) {
+			return false;
+		}
+		return isBST(x.left, min, x.key) &&
+				isBST(x.right, x.key, max);
 	}
 } 
