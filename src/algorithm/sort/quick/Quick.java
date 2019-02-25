@@ -1,6 +1,9 @@
 package algorithm.sort.quick;
 
+import java.util.Arrays;
+
 import algorithm.sort.Sort;
+
 
 public class Quick extends Sort {
 	private Quick() {

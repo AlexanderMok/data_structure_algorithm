@@ -4,7 +4,6 @@ import java.util.NoSuchElementException;
 
 import algorithm.structure.queue.Queue;
 import algorithm.structure.stack.Stack;
-import algorithm.structure.table.BinarySearchTreeSymbolTable.Node;
 
 /**
  * A binary search tree (BST) is a binary tree where each node has a Comparable
