@@ -1,5 +1,7 @@
 package algorithm.structure.table;
 
+import java.util.NoSuchElementException;
+
 public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 	private static final boolean RED = true;
 	private static final boolean BLACK = false;
@@ -152,6 +154,52 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		h.left.color = !h.left.color;
 		h.right.color = !h.right.color;
 	}
+	
+	private Node balance(Node h) {
+		if (isRed(h.right)) {
+			h= rotateLeft(h);
+		}
+		if (isRed(h.left) && isRed(h.left.left)) {
+			h= rotateRight(h);
+		}
+		if (isRed(h.right) && isRed(h.left)) {
+			flipColors(h);
+		}
+		h.size = size(h.left) + size(h.right) + 1;
+		return h;
+	}
+	
+	public void deleteMin() {
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		
+		root = deleteMin(root);
+	}
+	
+	private Node deleteMin(Node h) {
+		if (h.left == null) {
+			return null;
+		}
+		//ensure we do not end up on a 2-link-node(Red node)
+		if (!isRed(h.left) && !isRed(h.left.left)) {
+			//borrow nodes from right siblings
+			h= moveRedLeft(h);
+		}
+		h.left = deleteMin(h.left);
+		return balance(h);
+	}
+	
+	private Node moveRedLeft(Node h) {
+		flipColors(h);
+		if (isRed(h.left.left)) {
+			h.right = rotateRight(h.right);
+			h = rotateLeft(h); 
+			flipColors(h);
+		}
+		return h;
+	}
+	
 	
 	
 	
