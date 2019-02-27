@@ -293,14 +293,13 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 
 	/**
 	 * keep h or one of its children is RED
-	 * 
+	 * replace Node h with its left max or right min Node
 	 * @param h
 	 * @param key
 	 * @return
 	 */
 	private Node delete(Node h, K key) {
-		int cmp = key.compareTo(h.key);
-		if (cmp < 0) {
+		if (key.compareTo(h.key) < 0) {
 			if (!isRed(h.left) && !isRed(h.left.left)) {
 				h = moveRedLeft(h);
 			}
@@ -310,14 +309,14 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 				h = rotateRight(h);
 			}
 			// equal at bottom
-			if (cmp == 0 && (h.right == null)) {
+			if (key.compareTo(h.key) == 0 && (h.right == null)) {
 				return null;
 			}
 			if (!isRed(h.right) && !isRed(h.right.left)) {
 				h = moveRedRight(h);
 			}
 			// equal not at bottom
-			if (cmp == 0) {
+			if (key.compareTo(h.key) == 0) {
 				Node x = min(h.right);
 				h.key = x.key;
 				h.value = x.value;
