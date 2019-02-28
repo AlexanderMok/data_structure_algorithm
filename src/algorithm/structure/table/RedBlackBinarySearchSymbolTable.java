@@ -1,9 +1,6 @@
 package algorithm.structure.table;
 
-import java.awt.RenderingHints.Key;
 import java.util.NoSuchElementException;
-
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 /**
  * <a href='http://www.cs.princeton.edu/~rs/talks/LLRB/RedBlack.pdf'>
@@ -210,7 +207,7 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 	}
 
 	/**
-	 * keep h or h.left is {@code RED}
+	 * keep h or h.left is {@code RED} so that it can delete the left min easy.
 	 * 
 	 * @param h
 	 * @return
@@ -245,7 +242,9 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 	}
 
 	/**
-	 * keep h or h.right is {@code RED} so that it is not a 2-node
+	 * keep h or h.right is {@code RED} so that it can delete the right max easy.
+	 * 
+	 * 2-node cases: h.right and h.right.left are black so it should borrow from left. 
 	 * 
 	 * @param h
 	 * @return
@@ -259,7 +258,7 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		if (h.right == null) {
 			return null;
 		}
-		// h is a 2-node and parent of h is 3-node or 4-node
+		// 2-node case 
 		if (!isRed(h.right) && !isRed(h.right.left)) {
 			h = moveRedRight(h);
 		}
