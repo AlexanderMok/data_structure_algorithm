@@ -196,14 +196,22 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		h.size = size(h.left) + size(h.right) + 1;
 		return h;
 	}
-
+    
+	/**
+	 * invariant: current node is not a 2-node
+	 */
 	public void deleteMin() {
 		if (isEmpty()) {
 			throw new NoSuchElementException();
 		}
-
+		// if both children of root are black, set root to red
+        if (!isRed(root.left) && !isRed(root.right)) {
+        	root.color = RED;
+        }
 		root = deleteMin(root);
-		root.color = BLACK;
+		if (!isEmpty()) {
+			root.color = BLACK;
+		}
 	}
 
 	/**
@@ -224,9 +232,13 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		h.left = deleteMin(h.left);
 		return balance(h);
 	}
-
+    /**
+     * make h.left.left red
+     * @param h
+     * @return
+     */
 	private Node moveRedLeft(Node h) {
-		// h.right.left is BLACK
+		// Assuming that h is red, make h.left or one of its children red.
 		flipColors(h);
 		if (isRed(h.right.left)) {
 			h.right = rotateRight(h.right);
@@ -235,10 +247,22 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		}
 		return h;
 	}
-
+    
+	/**
+	 * invariant: current node is not a 2-node
+	 */
 	public void deleteMax() {
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		// if both children of root are black, set root to red
+        if (!isRed(root.left) && !isRed(root.right)) {
+        	root.color = RED;
+        }
 		root = deleteMax(root);
-		root.color = BLACK;
+		if (!isEmpty()) {
+			root.color = BLACK;
+		}
 	}
 
 	/**
@@ -250,7 +274,8 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 	 * @return
 	 */
 	private Node deleteMax(Node h) {
-		// lean 3-nodes to the right as we are looking for the max
+		//assert h is red
+		// lean 3-nodes to the right as we are looking for the max and we go right
 		if (isRed(h.left)) {
 			h = rotateRight(h);
 		}
@@ -266,7 +291,11 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		// fix right-leaning red links and eliminate 4-nodes
 		return balance(h);
 	}
-
+    /**
+     * make h.right.right red
+     * @param h
+     * @return
+     */
 	private Node moveRedRight(Node h) {
 		// h.left.left is BLACK. sibling of h is 2-node
 		flipColors(h);
@@ -278,9 +307,14 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		}
 		return h;
 	}
-
+    
+	/**
+	 * invariant h or one of h's children is red
+	 * @param key
+	 */
 	public void delete(K key) {
 		checkKey(key);
+		//ensure red
 		if (!isRed(root.left) && !isRed(root.right)) {
 			root.color = RED;
 		}
@@ -299,9 +333,11 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 	 */
 	private Node delete(Node h, K key) {
 		if (key.compareTo(h.key) < 0) {
+			//2-node case borrow from right
 			if (!isRed(h.left) && !isRed(h.left.left)) {
 				h = moveRedLeft(h);
 			}
+			// non-2-node cases
 			h.left = delete(h.left, key);
 		} else {
 			if (isRed(h.left)) {
@@ -450,7 +486,7 @@ public class RedBlackBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		if (t > k) {
 			return select(x.left, k);
 		} else if (t < k) {
-			select(x.right, k - t - 1);
+			return select(x.right, k - t - 1);
 		} else {
 			return x;
 		}
