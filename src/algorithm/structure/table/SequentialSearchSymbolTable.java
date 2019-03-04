@@ -2,6 +2,8 @@ package algorithm.structure.table;
 
 import java.util.NoSuchElementException;
 
+import algorithm.structure.queue.Queue;
+
 /**
  * an unordered symbol table
  * <p>
@@ -119,6 +121,14 @@ public class SequentialSearchSymbolTable<K, V> {
 
 	public boolean isEmpty() {
 		return size() == 0;
+	}
+	
+	public Iterable<K> keys() {
+		Queue<K> queue = new Queue<>();
+		for(Node x = first; x != null;x = x.next){
+			queue.enqueue(x.key);
+		}
+		return queue;
 	}
 
 	private class Node {
