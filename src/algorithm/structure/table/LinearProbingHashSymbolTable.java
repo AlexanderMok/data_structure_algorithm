@@ -1,5 +1,9 @@
 package algorithm.structure.table;
 
+import java.util.Hashtable;
+
+import algorithm.structure.queue.Queue;
+
 public class LinearProbingHashSymbolTable<K, V> {
 	private static final int INIT_CAPCITY = 16;
 	// number of key-value pairs in the hash table
@@ -105,19 +109,52 @@ public class LinearProbingHashSymbolTable<K, V> {
 			return;
 		}
 		int i = hash(key);
-		while (keys[i] != null) {
-			if (keys[i].equals(key)) {
-				keys[i] = null;
-				values[i] = null;
-				n--;
-				return;
-			}
+		// find position of key in table
+		while (!key.equals(keys[i])) {
 			i = (i + 1) % m;
+		}
+		keys[i] = null;
+		values[i] = null;
+		// rehash
+		i = (i + 1) % m;
+		while (keys[i] != null) {
+			K keyToRehash = keys[i];
+			V valueToRehash = values[i];
+			keys[i] = null;
+			values[i] = null;
+			n--;
+			put(keyToRehash, valueToRehash);
+			i = (i + 1) % m;
+		}
+		n--;
+		if (n > 0 && n < m / 8) {
+			resize(m / 2);
 		}
 	}
 
-	public static void main(String[] args) {
+	public Iterable<K> keys() {
+		Queue<K> queue = new Queue<>();
+		for (int i = 0; i < m; i++) {
+            if (keys[i] != null) {
+				queue.enqueue(keys[i]);
+			}
+		}
+		return queue;
+	}
 
+	public static void main(String[] args) {
+		LinearProbingHashSymbolTable<String, Integer> st = new LinearProbingHashSymbolTable<>();
+		st.put("Am", 1);
+		st.put("Gk", 1455);
+		st.put("Bb", 23);
+		st.put("Dr", 2);
+		st.put("Ce", 54);
+		st.put("Fy", 235);
+		st.put("Eq", 56);
+        st.keys().forEach(s -> System.out.println(s + " " + st.get(s)));
+        st.delete("Dr");
+        System.out.println();
+        st.keys().forEach(s -> System.out.println(s + " " + st.get(s)));
 	}
 
 }
