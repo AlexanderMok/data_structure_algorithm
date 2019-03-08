@@ -82,7 +82,18 @@ public class SeparateChainingLiteHashST<K, V> {
 		checkKey(key);
 		int i = hash(key);
 		Node<K, V> x = st[i];
-		//TODO deletion on single linked list
+		for (Node<K, V> prev = null; x != null; prev = x, x = x.next) {
+			if (x.key.equals(key)) {
+				if (prev != null) {
+					prev.next = x.next;
+				} else {
+					st[i] = x.next;
+				}
+				V oldValue = x.value;
+				x.value = null;
+				return oldValue;
+			}
+		}
 		return null;
 	}
 	
