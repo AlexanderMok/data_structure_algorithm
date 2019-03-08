@@ -79,18 +79,21 @@ public class SequentialSearchSymbolTable<K, V> {
 			throw new NoSuchElementException("Symbol table is empty");
 		}
 
-		if (first != null && key.equals(first.key)) {
-			first = first.next;
-			return first.value;
-		}
-
-		Node p = first;
-		for (Node x = first.next; x != null; x = x.next) {
-			if (key.equals(x.key)) {
-				n--;
-				p.next = x.next;
-				return x.value;
+		Node e = first;
+		Node prev = null;
+		while(e!=null) {
+			if (e.key.equals(key)) {
+				if (prev != null) {
+					prev.next = e.next;
+				} else {
+					e = e.next;
+				}
+				V oldValue = e.value;
+				e.value = null;
+				return oldValue;
 			}
+			prev = e;
+			e = e.next;
 		}
 		return null;
 	}
@@ -141,10 +144,6 @@ public class SequentialSearchSymbolTable<K, V> {
 			this.value = value;
 			this.next = next;
 		}
-
-		public Node() {
-
-		}
 	}
 
 	public static void main(String[] args) {
@@ -154,8 +153,10 @@ public class SequentialSearchSymbolTable<K, V> {
 		st.put("c", 3);
 		System.out.println(st.contains("a"));
 		System.out.println(st.get("b"));
-		System.out.println(st.delte("b"));
+		System.out.println(st.keys());
+		System.out.println(st.delete("b"));
 		System.out.println(st.get("b"));
 		System.out.println(st.get("c"));
+		System.out.println(st.keys());
 	}
 }
