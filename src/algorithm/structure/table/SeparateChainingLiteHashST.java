@@ -5,6 +5,7 @@ import algorithm.structure.queue.Queue;
 /**
  * Separate chaining to hashing collision resolution with nested Linked list.
  * Array chain with Linked list
+ * 
  * @author Alex
  *
  */
@@ -42,6 +43,16 @@ public class SeparateChainingLiteHashST<K, V> {
 		}
 	}
 
+	private void resize(int capacity) {
+		Node<K, V>[] tmp = (Node<K, V>[]) new Node[capacity];
+		for (K key : keys()) {
+			int i = hash(key);
+			tmp[i] = new Node<>(key, get(key), tmp[i]);
+		}
+		m = capacity;
+		st = tmp;
+	}
+
 	public int size() {
 		return n;
 	}
@@ -67,6 +78,14 @@ public class SeparateChainingLiteHashST<K, V> {
 
 	public void put(K key, V value) {
 		checkKey(key);
+		if (value == null) {
+			delete(key);
+			return;
+		}
+		// load factor greater 1/2
+		if (n >= m / 2) {
+			resize(2 * m);
+		}
 		int i = hash(key);
 		for (Node<K, V> x = st[i]; x != null; x = x.next) {
 			if (x.key.equals(key)) {
@@ -77,7 +96,7 @@ public class SeparateChainingLiteHashST<K, V> {
 		n++;
 		st[i] = new Node<>(key, value, st[i]);
 	}
-	
+
 	public V delete(K key) {
 		checkKey(key);
 		int i = hash(key);
@@ -91,12 +110,15 @@ public class SeparateChainingLiteHashST<K, V> {
 				}
 				V oldValue = x.value;
 				x.value = null;
+				n--;
+				if (n <= 2 * m) {
+					resize(m / 2);
+				}
 				return oldValue;
 			}
 		}
 		return null;
 	}
-	
 
 	public Iterable<K> keys() {
 		Queue<K> queue = new Queue<K>();
