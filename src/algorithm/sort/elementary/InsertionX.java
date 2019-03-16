@@ -28,7 +28,7 @@ public class InsertionX extends Sort {
 		int n = a.length;
 
 		int exchanges = 0;
-		//put smallest element in position(left most) to server as sentinel
+		//put smallest element in position(left most) to serve as sentinel
 		for (int i = n - 1; i > 0; i--) {
 			if (less(a[i], a[i - 1])) {
 				exchange(a, i, i - 1);
