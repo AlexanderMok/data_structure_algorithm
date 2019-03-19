@@ -109,7 +109,34 @@ public class UndirectedGraph {
 		validateVertex(vertex);
 		return adj[vertex].size();
 	}
+
+	public int maxDegree(UndirectedGraph graph) {
+		int max = 0;
+		for (int i = 0; i < graph.vertices(); i++) {
+			int deg = degree(i);
+			if (deg > max) {
+				max = deg;
+			}
+		}
+		return max;
+	}
+
+	public int avgDegree(UndirectedGraph undirectedGraph) {
+		return 2 * undirectedGraph.edges() / undirectedGraph.vertices();
+	}
 	
+	public int uumberOfSelfLoops(UndirectedGraph undirectedGraph) {
+		int count = 0;
+		for (int i = 0; i < undirectedGraph.vertices();i++) {
+			for (int j : undirectedGraph.adjacent(i)) {
+				if (i == j) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder s = new StringBuilder();
@@ -123,7 +150,7 @@ public class UndirectedGraph {
 		}
 		return s.toString();
 	}
-	
+
 	public static void main(String[] args) {
 		UndirectedGraph graph = new UndirectedGraph(8);
 		System.out.println(graph);
@@ -133,7 +160,6 @@ public class UndirectedGraph {
 		graph.addEdge(1, 6);
 		graph.addEdge(5, 7);
 		System.out.println(graph);
-		
-		
+
 	}
 }

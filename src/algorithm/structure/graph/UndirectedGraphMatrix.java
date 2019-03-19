@@ -73,6 +73,33 @@ public class UndirectedGraphMatrix {
 		return deg;
 	}
 
+	public int maxDegree(UndirectedGraphMatrix undirectedGraphMatrix) {
+		int max = 0;
+		for (int i = 0; i < undirectedGraphMatrix.vertices(); i++) {
+			int deg = degree(i);
+			if (deg > max) {
+				max = deg;
+			}
+		}
+		return max;
+	}
+
+	public int avgDegree(UndirectedGraphMatrix undirectedGraphMatrix) {
+		return 2 * undirectedGraphMatrix.edges() / undirectedGraphMatrix.vertices();
+	}
+
+	public int uumberOfSelfLoops(UndirectedGraphMatrix undirectedGraphMatrix) {
+		int count = 0;
+		for (int i = 0; i < undirectedGraphMatrix.vertices(); i++) {
+			for (int j : undirectedGraphMatrix.adjacent(i)) {
+				if (i == j) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
 	/**
 	 * Returns the vertices adjacent to a given {@code vertex}.
 	 * 
@@ -80,7 +107,7 @@ public class UndirectedGraphMatrix {
 	 * @return
 	 */
 	public Iterable<Integer> adjacent(int vertex) {
-		
+
 		return new AdjIterator(vertex);
 	}
 
