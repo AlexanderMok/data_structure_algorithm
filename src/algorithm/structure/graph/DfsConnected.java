@@ -4,9 +4,9 @@ public class DfsConnected {
 	private boolean[] marked;
 	// id of connected component containing v
 	private int[] id;
-    //number of vertices in given component
+    //number of vertices, index of this array represents connected components
 	private int[] size;
-	// number of connected components
+	// number of connected components(In {a-b-c,d-e-f}, there are two)
 	private int count;
 
 	public DfsConnected(UndirectedGraph graph) {
@@ -63,7 +63,7 @@ public class DfsConnected {
 		graph.addEdge(5, 7);
 
 		DfsConnected connected = new DfsConnected(graph);
-		System.out.println(connected.count);
+		System.out.println("Number of connected component: " + connected.count);
 		for (int i = 0; i < connected.id.length; i++) {
 			System.out.print(connected.id[i] + " ");
 		}
