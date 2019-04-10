@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 /**
  *  The {@code LinkedBag} class represents a bag (or multiset) of 
- *  generic items. It supports insertion and iterating over the 
+ *  generic items. It supports insertion, deletion and iterating over the 
  *  items in arbitrary order.
  *  <p>
  *  This implementation uses a singly-linked list with a non-static nested class Node.
@@ -46,6 +46,20 @@ public class LinkedBag<T> implements Iterable<T>{
 		first.next = oldfirst;
 		size++;
 	}
+	
+	public void delete(T item) {
+		Node head = first;
+		for(Node pre = null; head != null; pre=head, head = head.next) {
+			if (head.item.equals(item)) {
+				if (pre!=null) {
+					pre.next = head.next;
+				} else {
+					head = head.next;
+				}
+				size--;
+			}
+		}
+	}
 
 	@Override
 	public Iterator<T> iterator() {
@@ -81,6 +95,8 @@ public class LinkedBag<T> implements Iterable<T>{
 		bags.add(1);
 		bags.add(2);
 		bags.add(3);
+		System.out.println(bags.isEmpty() + ":" + bags.size());
+		bags.delete(2);
 		System.out.println(bags.isEmpty() + ":" + bags.size());
 		bags.forEach(System.out::print);
 	}
