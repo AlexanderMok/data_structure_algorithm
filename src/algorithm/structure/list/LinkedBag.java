@@ -60,6 +60,18 @@ public class LinkedBag<T> implements Iterable<T>{
 			}
 		}
 	}
+	
+	public void reverse() {
+		Node head = first;
+		Node prev = null, next = null;
+		while(head != null) {
+			next = head.next;
+			head.next = prev;
+			prev = head;
+			head = next;
+		}
+		first = prev;
+	}
 
 	@Override
 	public Iterator<T> iterator() {
@@ -95,9 +107,14 @@ public class LinkedBag<T> implements Iterable<T>{
 		bags.add(1);
 		bags.add(2);
 		bags.add(3);
+		bags.add(4);
+		bags.add(5);
 		System.out.println(bags.isEmpty() + ":" + bags.size());
 		bags.delete(2);
 		System.out.println(bags.isEmpty() + ":" + bags.size());
+		bags.forEach(System.out::print);
+		bags.reverse();
+		System.out.println();
 		bags.forEach(System.out::print);
 	}
 
