@@ -1,5 +1,6 @@
 package algorithm.structure.list;
 
+import java.awt.event.ItemEvent;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -128,6 +129,40 @@ public class DoubleLinkedBag<T> implements Iterable<T> {
         size--;
         return item;
 	}
+	
+	/**
+	 * Unlink non-null node x
+	 * @param x
+	 * @return
+	 */
+	private T unlink(Node x) {
+		Objects.requireNonNull(x);
+		final T item = x.item;
+		final Node prev = x.prev;
+		final Node next = x.next;
+		
+		if (prev == null) {
+			// means unlink a first node and update first node.
+			first = next;
+		} else {
+			//update prev next
+			prev.next = next;
+			//delete node x's prev pointer
+			x.prev = null;
+		}
+		
+		if (next == null) {
+			//means unlink a last node and update last node
+			last = prev;
+		} else {
+			next.prev = prev;
+			x.next = null;
+		}
+		x.item = null;
+		size--;
+		return item;
+	}
+	
 
 	@Override
 	public Iterator<T> iterator() {
