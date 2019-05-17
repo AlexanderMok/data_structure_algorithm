@@ -38,9 +38,14 @@ public class DoubleLinkedBag<T> implements Iterable<T> {
 	public boolean contains(T item) {
 		return indexOf(item) != -1;
 	}
-
+    
+	/**
+	 * Traverse the list to find index of {@code item}
+	 * @param item
+	 * @return return index of {@code item}. return -1 if not found.
+	 */
 	public int indexOf(T item) {
-		Objects.nonNull(item);
+		Objects.requireNonNull(item);
 		int index = 0;
 		for (Node head = first; head != null; head = head.next) {
 			if (head.item.equals(item)) {
@@ -50,7 +55,11 @@ public class DoubleLinkedBag<T> implements Iterable<T> {
 		}
 		return -1;
 	}
-
+    
+	/**
+	 * Links {@code item} as first element.
+	 * @param item
+	 */
 	public void addFirst(T item) {
 		final Node oldFirst = first;
 		final Node newFirst = new Node(null, item, oldFirst);
@@ -58,34 +67,66 @@ public class DoubleLinkedBag<T> implements Iterable<T> {
 		if (oldFirst == null) {
 			last = newFirst;
 		} else {
-			first.prev = newFirst;
+			oldFirst.prev = newFirst;
 		}
 		size++;
 	}
 
 	/**
-	 * Appends item to the end of this list
+	 * Links {@code item} as last element.
 	 * 
 	 * @param item
 	 */
 	public void addLast(T item) {
 		final Node oldLast = last;
-		final Node newNode = new Node(oldLast, item, null);
-		last = newNode;
+		final Node newLast = new Node(oldLast, item, null);
 		if (oldLast == null) {
-			first = newNode;
+			first = newLast;
 		} else {
-			oldLast.next = newNode;
+			oldLast.next = newLast;
 		}
 		size++;
 	}
-
-	public void removeFirst() {
-
+    
+	/**
+	 * Unlinks non-null first node
+	 */
+	public T removeFirst() {
+		final Node firstNode = first;
+        Objects.requireNonNull(firstNode);
+        final T item = firstNode.item;
+        final Node next = firstNode.next;
+        firstNode.item = null;
+        firstNode.next = null;
+        first = next;
+        if (next == null) {
+        	last = null;
+        } else {
+        	next.prev = null;
+        }
+        size--;
+        return item;
+        
 	}
-
-	public void RemoveLast() {
-
+    
+	/**
+	 * Unlinks non-null last node
+	 */
+	public T removeLast() {
+        final Node lastNode = last;
+        Objects.requireNonNull(lastNode);
+        final T item = lastNode.item;
+        final Node prev = lastNode.prev;
+        lastNode.item = null;
+        lastNode.prev = null;
+        last = prev;
+        if (prev == null) {
+        	first = null;
+        } else {
+			prev.next = null;
+		}
+        size--;
+        return item;
 	}
 
 	@Override
