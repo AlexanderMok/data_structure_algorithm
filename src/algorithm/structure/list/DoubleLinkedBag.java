@@ -1,6 +1,5 @@
 package algorithm.structure.list;
 
-import java.awt.event.ItemEvent;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -130,6 +129,7 @@ public class DoubleLinkedBag<T> implements Iterable<T> {
         return item;
 	}
 	
+	
 	/**
 	 * Unlink non-null node x
 	 * @param x
@@ -161,6 +161,46 @@ public class DoubleLinkedBag<T> implements Iterable<T> {
 		x.item = null;
 		size--;
 		return item;
+	}
+	
+	private boolean checkElementIndex(int index) {
+		return index >= 0 && index < size; 
+	}
+	
+	/**
+	 * Return non-null Node at {@code index}
+	 * @param index
+	 * @return
+	 */
+	private Node node(int index) {
+		if (!checkElementIndex(index)) {
+			throw new IndexOutOfBoundsException();
+		}
+		// apply binary search idea to search from first
+		if (index < (size >> 1)) {
+			Node x = first;
+			for (int i = 0; i < index; i++) {
+				x = x.next;
+			}
+			return x;
+		} else {
+			// search from last
+			Node x = last;
+			for (int i = size - 1; i > index; i--) {
+				x = x.prev;
+			}
+			return x;
+		}
+	}
+	
+	/**
+	 * Remove non-null node at {@code index} and return the removed item
+	 * @param index
+	 * @return
+	 */
+	public T remove(int index) {
+		Node x = node(index);
+		return unlink(x);
 	}
 	
 
