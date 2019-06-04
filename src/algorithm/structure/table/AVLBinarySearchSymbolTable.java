@@ -120,25 +120,105 @@ public class AVLBinarySearchSymbolTable<K extends Comparable<K>, V> {
 			return x;
 		}
 	}
-    
+
 	public boolean contains(K key) {
-        return get(key) != null;
+		return get(key) != null;
 	}
 
 	public void put(K key, V value) {
-        checkKey(key);
-        if (value == null) {
-        	delete(key);
-        	return;
-        }
-        root = put(root, key, value);
+		checkKey(key);
+		if (value == null) {
+			delete(key);
+			return;
+		}
+		root = put(root, key, value);
 	}
 
 	private Node put(Node x, K key, V value) {
-		// TODO Auto-generated method stub
-		return null;
+		if (x == null) {
+			return new Node(key, value, 0, 1);
+		}
+		int cmp = key.compareTo(x.key);
+		if (cmp < 0) {
+			x.left = put(x.left, key, value);
+		} else if (cmp > 0) {
+			x.right = put(x.right, key, value);
+		} else {
+			x.value = value;
+			return x;
+		}
+		x.size = 1 + size(x.left) + size(x.right);
+		x.height = 1 + Math.max(height(x.left), height(x.right));
+		return balance(x);
 	}
-	
+
+	/**
+	 * Restores balance.
+	 * <p>
+	 * Scenarios: left left,left right, right right, right left
+	 * 
+	 * @param x
+	 * @return
+	 */
+	private Node balance(Node x) {
+		// left leaning
+		if (balanceFactor(x) > 1) {
+			// left right
+			if (balanceFactor(x.left) < 0) {
+				x.left = rotateLeft(x.left);
+			}
+			//left left
+			x = rotateRight(x);
+		}
+		// right leaning
+		else if (balanceFactor(x) < -1) {
+			// right left
+			if (balanceFactor(x.right) > 0) {
+				x.right = rotateRight(x.right);
+			}
+			//right right
+			x = rotateLeft(x);
+		}
+		return x;
+	}
+
+	/**
+	 * The balance factor is defined as the difference in height of the left
+	 * subtree and right subtree, in this order.左子树与右子树的差
+	 * <p>
+	 * Therefore, a subtree with a balance factor of -1, 0 or 1 has the AVL
+	 * property since the heights of the two child subtrees differ by at most
+	 * one.-1,0,1是合法的。-1即是左0右1，0即是左0右0，1即是左1右0
+	 * 
+	 * @param x
+	 * @return
+	 */
+	private int balanceFactor(Node x) {
+		return height(x.left) - height(x.right);
+	}
+
+	private Node rotateLeft(Node h) {
+		Node x = h.right;
+		h.right = x.left;
+		x.left = h;
+		x.size = h.size;
+		h.size = 1 + size(h.left) + size(h.left);
+		h.height = 1 + Math.max(height(h.left), height(h.right));
+		x.height = 1 + Math.max(height(x.left), height(x.right));
+		return x;
+	}
+
+	private Node rotateRight(Node h) {
+		Node x = h.left;
+		h.left = x.right;
+		x.right = h;
+		x.size = h.size;
+		h.size = 1 + size(h.left) + size(h.right);
+		h.height = 1 + Math.max(height(h.left), height(h.right));
+		x.height = 1 + Math.max(height(x.left), height(x.right));
+		return x;
+	}
+
 	public void delete(K key) {
 	}
 }
