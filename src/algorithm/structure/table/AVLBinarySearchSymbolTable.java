@@ -1,5 +1,7 @@
 package algorithm.structure.table;
 
+import java.util.NoSuchElementException;
+
 /**
  * The {@code AVLBinarySearchSymbolTable} class represents an ordered symbol
  * table of generic key-value pairs.
@@ -167,7 +169,7 @@ public class AVLBinarySearchSymbolTable<K extends Comparable<K>, V> {
 			if (balanceFactor(x.left) < 0) {
 				x.left = rotateLeft(x.left);
 			}
-			//left left
+			// left left
 			x = rotateRight(x);
 		}
 		// right leaning
@@ -176,7 +178,7 @@ public class AVLBinarySearchSymbolTable<K extends Comparable<K>, V> {
 			if (balanceFactor(x.right) > 0) {
 				x.right = rotateRight(x.right);
 			}
-			//right right
+			// right right
 			x = rotateLeft(x);
 		}
 		return x;
@@ -219,6 +221,78 @@ public class AVLBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		return x;
 	}
 
+	public K min() {
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		return min(root).key;
+	}
+
+	private Node min(Node x) {
+		if (x.left == null) {
+			return x;
+		}
+		return min(x.left);
+	}
+
+	public K max() {
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		return min(root).key;
+	}
+
+	private Node max(Node x) {
+		if (x.right == null) {
+			return x;
+		}
+		return min(x.right);
+	}
+
 	public void delete(K key) {
+		checkKey(key);
+		if (!contains(key)) {
+			return;
+		}
+		root = delete(root, key);
+	}
+
+	private Node delete(Node x, K key) {
+		if (key.compareTo(x.key) < 0) {
+			x.left = delete(x.left, key);
+		} else if (key.compareTo(x.key) > 0) {
+			x.right = delete(x.right, key);
+		} else {
+			if (x.left == null) {
+				return x.right;
+			} else if (x.right == null) {
+				return x.left;
+			} else {
+				Node cache = x;
+				x = min(x.right);
+				x.right = deleteMin(cache.right);
+				x.left = cache.left;
+			}
+		}
+		x.size = 1 + size(x.left) + size(x.right);
+		x.height = 1 + Math.max(height(x.left), height(x.right));
+		return balance(x);
+	}
+
+	public void deleteMin() {
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		root = deleteMin(root);
+	}
+
+	private Node deleteMin(Node x) {
+		if (x.left == null) {
+			return x.right;
+		}
+		x.left = deleteMin(x.left);
+		x.size = 1 + size(x.left) + size(x.right);
+		x.height = 1 + Math.max(height(x.left), height(x.right));
+		return balance(x);
 	}
 }
