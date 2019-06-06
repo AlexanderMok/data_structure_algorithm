@@ -295,4 +295,21 @@ public class AVLBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		x.height = 1 + Math.max(height(x.left), height(x.right));
 		return balance(x);
 	}
+
+	public void deleteMax() {
+		if (isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		root = deleteMax(root);
+	}
+
+	private Node deleteMax(Node x) {
+		if (x.right == null) {
+			return x.left;
+		}
+		x.right = deleteMax(x.right);
+		x.size = 1 + size(x.left) + size(x.right);
+		x.height = 1 + Math.max(height(x.left), height(x.right));
+		return balance(x);
+	}
 }
