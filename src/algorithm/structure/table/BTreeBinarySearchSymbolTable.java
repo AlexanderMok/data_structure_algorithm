@@ -80,10 +80,49 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 
 	public V get(K key) {
 		checkKey(key);
+		return get(root, key, height);
+	}
+    
+	/**
+	 * B-tree grows from bottom up
+	 * @param x
+	 * @param key
+	 * @param height
+	 * @return
+	 */
+	private V get(Node x, K key, int height) {
+		Entry[] children = x.children;
+		// external node
+		if (height == 0) {
+			// external node has data. so traverse children and retrieve item.
+			for (int j = 0; j < x.m; j++) {
+				if (eq(key, children[j].key)) {
+					return (V) children[j].value;
+				}
+			}
+		}
+		// internal node
+		else {
+			for (int j = 0; j < x.m; j++) {
+				if (j + 1 == x.m || less(key, children[j + 1].key)) {
+					//search upper level
+					return get(children[j].next, key, height - 1);
+				}
+			}
+		}
 		return null;
 	}
 
 	public void put(K key, V value) {
 		checkKey(key);
 	}
+
+	private boolean less(Comparable k1, Comparable k2) {
+		return k1.compareTo(k2) < 0;
+	}
+
+	private boolean eq(Comparable k1, Comparable k2) {
+		return k1.compareTo(k2) == 0;
+	}
+
 }
