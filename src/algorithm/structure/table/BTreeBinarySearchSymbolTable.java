@@ -82,9 +82,10 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		checkKey(key);
 		return get(root, key, height);
 	}
-    
+
 	/**
 	 * B-tree grows from bottom up
+	 * 
 	 * @param x
 	 * @param key
 	 * @param height
@@ -105,7 +106,7 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		else {
 			for (int j = 0; j < x.m; j++) {
 				if (j + 1 == x.m || less(key, children[j + 1].key)) {
-					//search upper level
+					// search upper level
 					return get(children[j].next, key, height - 1);
 				}
 			}
@@ -115,6 +116,41 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 
 	public void put(K key, V value) {
 		checkKey(key);
+		if (value == null) {
+			delete(key);
+		}
+		Node uNode = put(root, key, value, height);
+	}
+
+	private Node put(Node h, K key, V value, int height) {
+		int j;
+		Entry t = new Entry(key, value, null);
+		// external node
+		if (height == 0) {
+			for (j = 0; j < h.m; j++) {
+				if (less(key, h.children[j].key)) {
+					break;
+				}
+			}
+		}
+		// internal node
+		else {
+			for (j = 0; j < h.m; j++) {
+				if ((j + 1 == h.m) || less(key, h.children[j + 1].key)) {
+
+				}
+			}
+		}
+
+		return splitNode(h);
+	}
+
+	private Node splitNode(Node h) {
+		return null;
+	}
+
+	public void delete(K key) {
+
 	}
 
 	private boolean less(Comparable k1, Comparable k2) {
