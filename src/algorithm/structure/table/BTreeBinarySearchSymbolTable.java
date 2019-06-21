@@ -10,7 +10,9 @@ package algorithm.structure.table;
  *
  */
 public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
-	/* */
+	/**
+	 * max number of children per node can hold = M-1 M 阶B-tree
+	 */
 	private static final int M = 4;
 
 	/* root of B-tree */
@@ -21,9 +23,12 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 	private int n;
 
 	private static final class Node {
+		/* number of children */
 		private int m;
+		/* the array of children */
 		private Entry[] children = new Entry[M];
 
+		/* create a node with k children */
 		private Node(int k) {
 			m = k;
 		}
@@ -118,8 +123,20 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		checkKey(key);
 		if (value == null) {
 			delete(key);
+			return;
 		}
-		Node uNode = put(root, key, value, height);
+		Node u = put(root, key, value, height);
+		n++;
+		if (u == null) {
+			return;
+		}
+		// split. 每一个非叶子节点（除根节点）最少有 m/2 个子节点
+		Node t = new Node(2);
+		t.children[0] = new Entry(root.children[0].key, null, root);
+		t.children[1] = new Entry(u.children[0].key, null, u);
+		// update root
+		root = t;
+		height++;
 	}
 
 	private Node put(Node h, K key, V value, int height) {
@@ -137,11 +154,21 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		else {
 			for (j = 0; j < h.m; j++) {
 				if ((j + 1 == h.m) || less(key, h.children[j + 1].key)) {
-
+					Node u = put(h.children[j++].next, key, value, height - 1);
+					if (u == null) {
+						return null;
+					}
+					t.key = u.children[0].key;
+					t.next = u;
+					break;
 				}
 			}
 		}
-
+        
+		for (int i = h.m; i > j; i--) {
+			
+		}
+		
 		return splitNode(h);
 	}
 
