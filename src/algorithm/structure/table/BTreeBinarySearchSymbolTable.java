@@ -84,7 +84,7 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 	}
 
 	/**
-	 * B-tree grows from bottom up
+	 * B-tree
 	 * 
 	 * @param x
 	 * @param key
@@ -106,7 +106,7 @@ public class BTreeBinarySearchSymbolTable<K extends Comparable<K>, V> {
 		else {
 			for (int j = 0; j < x.m; j++) {
 				if (j + 1 == x.m || less(key, children[j + 1].key)) {
-					// search upper level
+					// search down the tree
 					return get(children[j].next, key, height - 1);
 				}
 			}
