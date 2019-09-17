@@ -1,6 +1,8 @@
 package zuo.recuranddynamic;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class SlidingWindow {
@@ -63,6 +65,7 @@ class LengthOfLongestSubstring {
 	 * <P>
 	 * 
 	 * Worst O(2n). {@code i} and {@code j} both traverse to the end.
+	 * 
 	 * @param s
 	 * @return
 	 */
@@ -72,13 +75,13 @@ class LengthOfLongestSubstring {
 		int length = 0, i = 0, j = 0;
 		// keep window [i, j] within range
 		while (i < n && j < n) {
-			// expand upper bound 
+			// expand upper bound
 			if (!window.contains(s.charAt(j))) {
 				window.add(s.charAt(j));
 				j++;
 				// update length
 				length = Math.max(length, j - i);
-			} 
+			}
 			// expand lower bound
 			else {
 				window.remove(s.charAt(i));
@@ -86,5 +89,25 @@ class LengthOfLongestSubstring {
 			}
 		}
 		return length;
+	}
+    
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public int lengthOfLongestSubstringSlidingWindowX(String s) {
+		int n = s.length();
+		int length = 0;
+		Map<Character, Integer> map = new HashMap<>();
+		for (int i = 0, j = 0; j < n; j++) {
+			if (map.containsKey(s.charAt(j))) {
+				i = Math.max(map.get(s.charAt(j)), i);
+			}
+			
+			map.put(s.charAt(j), j + 1);
+			length = Math.max(length, j - i + 1);
+		}
+		return 0;
 	}
 }
