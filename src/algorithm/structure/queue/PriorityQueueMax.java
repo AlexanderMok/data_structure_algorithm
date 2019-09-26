@@ -4,6 +4,12 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
+ * In a heap, the parent of the node in position k is in position k/2; and,
+ * conversely, the two children of the node in position k are in positions 2k
+ * and 2k + 1. We can travel up and down by doing simple arithmetic on array
+ * indices: to move up the tree from a[k] we set k to k/2; to move down the tree
+ * we set k to 2*k or 2*k+1.
+ * <p>
  * MaxHeap data structure
  * 
  * @author Alex
@@ -144,14 +150,14 @@ public class PriorityQueueMax<Key extends Comparable<Key>> implements Iterable<K
 
 		@Override
 		public Key next() {
-			if(!hasNext()) {
+			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
 			return copy.delMax();
 		}
 
 	}
-	
+
 	public static void main(String[] args) {
 		PriorityQueueMax<String> pq = new PriorityQueueMax<>();
 		pq.insert("a");

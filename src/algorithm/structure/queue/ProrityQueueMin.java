@@ -4,7 +4,14 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
+ * In a heap, the parent of the node in position k is in position k/2; and,
+ * conversely, the two children of the node in position k are in positions 2k
+ * and 2k + 1. We can travel up and down by doing simple arithmetic on array
+ * indices: to move up the tree from a[k] we set k to k/2; to move down the tree
+ * we set k to 2*k or 2*k+1.
+ * <p>
  * MinHeap Data Structure
+ * 
  * @author Alex
  *
  * @param <E>
@@ -93,16 +100,16 @@ public class ProrityQueueMin<E extends Comparable<E>> implements Iterable<E> {
 	}
 
 	private class HeapIterator implements Iterator<E> {
-        
+
 		private ProrityQueueMin<E> copy;
-		
+
 		public HeapIterator() {
 			copy = new ProrityQueueMin<>(size());
 			for (int i = 1; i <= n; i++) {
 				copy.insert(pq[i]);
 			}
 		}
-		
+
 		@Override
 		public boolean hasNext() {
 			return !copy.isEmpty();
@@ -110,11 +117,12 @@ public class ProrityQueueMin<E extends Comparable<E>> implements Iterable<E> {
 
 		@Override
 		public E next() {
-			if(!hasNext()) throw new NoSuchElementException();
+			if (!hasNext())
+				throw new NoSuchElementException();
 			return copy.delMin();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		ProrityQueueMin<Integer> pq = new ProrityQueueMin<>();
 		pq.insert(6);
