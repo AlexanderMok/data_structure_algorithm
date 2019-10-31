@@ -25,9 +25,9 @@ public class TrieSearchTree<T> {
 	 */
 	private class TrieNode<T> {
 		private TrieNode<T> parent;
-		/* a shared key associated with its children */
+		/* a shared key(prefix of a String sequence) associated with its children */
 		private Map<Character, TrieNode<T>> children;
-		/* one character of a {@code String} */
+		/* one character of a String sequence */
 		private char key;
 		private T value;
 		private boolean endState;
