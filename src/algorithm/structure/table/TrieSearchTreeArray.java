@@ -97,14 +97,15 @@ public class TrieSearchTreeArray<T> {
 		if (value == null) {
 			delete(key);
 		} else {
-			root = put(root,  key, value, 0);
+			root = put(root, key, value, 0);
 		}
 	}
-	
+
 	private TrieNode put(TrieNode x, String key, T value, int depth) {
 		if (x == null) {
 			return new TrieNode();
 		}
+		// key sequence has put into the Trie
 		if (depth == key.length()) {
 			if (x.value == null) {
 				n++;
@@ -117,7 +118,70 @@ public class TrieSearchTreeArray<T> {
 		x.next[character] = put(x.next[character], key, value, depth + 1);
 		return x;
 	}
-	
-	public void delete(String key) {}
+
+	public T put2(String key, T value) {
+		if (value == null) {
+			delete(key);
+		} else {
+			char[] characters = key.toCharArray();
+			TrieNode node = this.root;
+			for (int i = 0; i < characters.length; i++) {
+				char c = characters[i];
+				TrieNode childNode = node.next[c];
+				if (childNode == null) {
+					childNode = new TrieNode();
+				}
+				node = childNode;
+			}
+			if (node.value == null) {
+				n++;
+			}
+			node.value = value;
+		}
+		return value;
+	}
+
+	/**
+	 * Returns the number of key-value pairs in this symbol table.
+	 * 
+	 * @return the number of key-value pairs in this symbol table
+	 */
+	public int size() {
+		return n;
+	}
+
+	public boolean isEmpty() {
+		return size() == 0;
+	}
+
+	public void delete(String key) {
+		root = delete(root, key, 0);
+	}
+
+	private TrieNode delete(TrieNode x, String key, int depth) {
+		if (x == null) {
+			return null;
+		}
+		if (depth == key.length()) {
+			if (x.value != null) {
+				n--;
+			}
+			x.value = null;
+		} else {
+			char c = key.charAt(depth);
+			x.next[c] = delete(x.next[c], key, depth + 1);
+		}
+		
+		// remove subtrie rooted at x if it is completely empty
+		if (x.value != null) {
+			return x;
+		}
+		for (int c = 0; c < R; c++) {
+			if (x.next[c] != null) {
+				return x;
+			}
+		}
+		return null;
+	}
 
 }
